@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 from datetime import date
 
 import pytest
 
-from auto_changelog import default_issue_pattern
-from auto_changelog.domain_model import Changelog
-from auto_changelog.presenter import MarkdownPresenter
+from foxy_changelog import default_issue_pattern
+from foxy_changelog.domain_model import Changelog
+from foxy_changelog.presenter import MarkdownPresenter
 
 
 @pytest.fixture(params=["", "Title"])

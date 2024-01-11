@@ -1,13 +1,17 @@
-from unittest.mock import MagicMock, Mock, patch
+from __future__ import annotations
+
+from unittest.mock import MagicMock
+from unittest.mock import Mock
+from unittest.mock import patch
 
 import pytest
+
+from foxy_changelog.repository import GitRepository
 from git import Repo
 from git.objects import Commit
 
-from auto_changelog.repository import GitRepository
 
-
-@patch("auto_changelog.repository.Repo", autospec=True)
+@patch("foxy_changelog.repository.Repo", autospec=True)
 @patch.object(GitRepository, "_extract_release_args", return_value=("title", "date", "sha"))
 @patch.object(GitRepository, "_extract_note_args", return_value=("sha", "change_type", "description"))
 @patch.object(GitRepository, "_get_git_url", return_value="git@github.com:Michael-F-Bryan/auto-changelog.git")
@@ -20,7 +24,7 @@ def test_include_unreleased(mock_ggu, mock_ena, mock_era, mock_repo):
     assert changelog.releases[0].title == "Unreleased"
 
 
-@patch("auto_changelog.repository.Repo", autospec=True)
+@patch("foxy_changelog.repository.Repo", autospec=True)
 @patch.object(GitRepository, "_extract_release_args", return_value=("title", "date", "sha"))
 @patch.object(GitRepository, "_extract_note_args", return_value=("sha", "change_type", "description"))
 @patch.object(GitRepository, "_get_git_url", return_value="git@github.com:Michael-F-Bryan/auto-changelog.git")
@@ -159,7 +163,7 @@ def test_parse_conventional_commit_with_empty_message(message, expected):
     assert expected == GitRepository._parse_conventional_commit(message)  # pylint: disable=protected-access
 
 
-@patch("auto_changelog.repository.Repo", autospec=True)
+@patch("foxy_changelog.repository.Repo", autospec=True)
 @patch.object(GitRepository, "_get_git_url")
 def test_get_remote_url(mock_ggu, mock_repo):
     mock_ggu.return_value = "git@github.com:Michael-F-Bryan/auto-changelog.git"
@@ -172,7 +176,7 @@ def test_get_remote_url(mock_ggu, mock_repo):
     assert expected == remote_url
 
 
-@patch("auto_changelog.repository.Repo", autospec=True)
+@patch("foxy_changelog.repository.Repo", autospec=True)
 @patch.object(GitRepository, "_remote_url", return_value="https://github.com/Michael-F-Bryan/auto-changelog")
 def test_issue_from_git_remote_url(mock_ru, mock_repo):
     remote_url = GitRepository(".")._issue_from_git_remote_url(remote="origin")  # pylint: disable=protected-access
