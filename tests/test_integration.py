@@ -1,12 +1,15 @@
+from __future__ import annotations
+
 import logging
 import os
 import subprocess
+
 from datetime import date
 
 import pytest
-from click.testing import CliRunner
 
-from auto_changelog.__main__ import main
+from click.testing import CliRunner
+from foxy_changelog.__main__ import main
 
 
 # pylint: disable=redefined-outer-name
@@ -33,7 +36,7 @@ def test_repo(tmp_path, commands):
     for command in init_commands + commands:
         # shell argument fixes error for strings. Details in link below:
         # https://stackoverflow.com/questions/9935151/popen-error-errno-2-no-such-file-or-directory
-        subprocess.run(command, shell=True)  # pylint: disable=subprocess-run-check
+        subprocess.run(command, shell=True, check=False)  # pylint: disable=subprocess-run-check
     yield str(tmp_path)
     os.chdir(cwd)
 
@@ -259,7 +262,7 @@ def test_option_skipping_unreleased(runner, open_changelog):
     assert result.exit_code == 0, result.stderr
     assert result.output == ""
     changelog = open_changelog().read()
-    assert "# Changelog\n" == changelog
+    assert changelog == "# Changelog\n"
     assert "## Unreleased" not in changelog
 
 
@@ -332,7 +335,7 @@ def test_option_invalid_issue_pattern(runner, open_changelog):
 def test_option_stdout(runner, open_changelog):
     result = runner.invoke(main, ["--stdout"])
     assert result.exit_code == 0, result.stderr
-    assert "# Changelog\n\n" == result.output
+    assert result.output == "# Changelog\n\n"
 
 
 @pytest.mark.parametrize(

@@ -1,24 +1,36 @@
+from __future__ import annotations
+
 import logging
 import re
+
 from datetime import date
 from hashlib import sha256
-from typing import Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Optional
 
-from git import Repo, TagReference
-from git.objects import Commit
+from git import Repo
+from git import TagReference
 
-import auto_changelog
-from auto_changelog.domain_model import Changelog, RepositoryInterface, default_tag_pattern
+from foxy_changelog import default_diff_url
+from foxy_changelog import default_issue_url
+from foxy_changelog.domain_model import Changelog
+from foxy_changelog.domain_model import RepositoryInterface
+from foxy_changelog.domain_model import default_tag_pattern
+
+
+if TYPE_CHECKING:
+    from git.objects import Commit
 
 
 class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-methods
     def __init__(  # pylint: disable=too-many-arguments
         self,
         repository_path,
-        latest_version: Optional[str] = None,
+        latest_version: str | None = None,
         skip_unreleased: bool = True,
         tag_prefix: str = "",
-        tag_pattern: Optional[str] = None,
+        tag_pattern: str | None = None,
     ):
         self.repository = Repo(repository_path)
         self.tag_prefix = tag_prefix
@@ -33,9 +45,9 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
         title: str = "Changelog",
         description: str = "",
         remote: str = "origin",
-        issue_pattern: Optional[str] = None,
-        issue_url: Optional[str] = None,
-        diff_url: Optional[str] = None,
+        issue_pattern: str | None = None,
+        issue_url: str | None = None,
+        diff_url: str | None = None,
         starting_commit: str = "",
         stopping_commit: str = "HEAD",
     ) -> Changelog:
@@ -101,7 +113,7 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
         """Creates issue url with {id} format key"""
         try:
             url = self._remote_url(remote)
-            return auto_changelog.default_issue_url.format(base_url=url)
+            return default_issue_url.format(base_url=url)
         except ValueError as e:
             logging.error("%s. Turning off issue links.", e)
             return None
@@ -109,7 +121,7 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
     def _diff_from_git_remote_url(self, remote: str):
         try:
             url = self._remote_url(remote)
-            return auto_changelog.default_diff_url.format(base_url=url)
+            return default_diff_url.format(base_url=url)
         except ValueError as e:
             logging.error("%s. Turning off compare url links.", e)
             return None
@@ -163,9 +175,9 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
     @staticmethod
     def _init_commit_tags_index(
         repo: Repo, tag_prefix: str, tag_pattern: Optional[str] = None
-    ) -> Dict[Commit, List[TagReference]]:
+    ) -> dict[Commit, list[TagReference]]:
         """Create reverse index"""
-        reverse_tag_index: Dict[Commit, List[TagReference]] = {}
+        reverse_tag_index: dict[Commit, list[TagReference]] = {}
         semver_regex = default_tag_pattern
         for tagref in repo.tags:
             tag_name = tagref.name
@@ -193,7 +205,7 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
         return reverse_tag_index
 
     @staticmethod
-    def _extract_release_args(commit, tags) -> Tuple[str, str, Any, Any]:
+    def _extract_release_args(commit, tags) -> tuple[str, str, Any, Any]:
         """Extracts arguments for release"""
         title = ", ".join(map(lambda tag: f"{tag.name}", tags))
         date_ = commit.authored_datetime.date()
@@ -204,7 +216,7 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
         return title, title, date_, sha
 
     @staticmethod
-    def _extract_note_args(commit) -> Tuple[str, str, str, str, str, str]:
+    def _extract_note_args(commit) -> tuple[str, str, str, str, str, str]:
         """Extracts arguments for release Note from commit"""
         sha = commit.hexsha
         message = commit.message
@@ -212,7 +224,7 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
         return sha, type_, description, scope, body, footer
 
     @staticmethod
-    def _parse_conventional_commit(message: str) -> Tuple[str, str, str, str, str]:
+    def _parse_conventional_commit(message: str) -> tuple[str, str, str, str, str]:
         type_ = scope = description = body_footer = body = footer = ""
         # TODO this is less restrictive version of re. I have somewhere more restrictive one, maybe as option?
         match = re.match(r"^(\w+)(\(\w+\))?!?: (.*)(\n\n[\w\W]*)?$", message.strip())

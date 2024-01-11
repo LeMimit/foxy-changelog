@@ -1,0 +1,39 @@
+[envs.default]
+pre-install-commands = [
+  "python.exe -m pip install --upgrade pip",
+  "pip install -r deps/requirements-tool.txt -r deps/requirements-lint.txt",
+  "pre-commit install",
+]
+
+[envs.default.scripts]
+pyversion = "python --version"
+
+[envs.test]
+pre-install-commands = ["pip install -r deps/requirements-test.txt"]
+
+[envs.test.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = ["- coverage combine", "coverage report", "coverage html"]
+cov = ["test-cov", "cov-report"]
+
+[envs.hatch-static-analysis]
+pre-install-commands = [
+  "python.exe -m pip install --upgrade pip",
+  "pip install -r deps/requirements-tool.txt -r deps/requirements-lint.txt -r deps/requirements-test.txt",
+]
+config-path = "ruff_defaults.toml"
+dependencies = ["cowsay"]
+skip-install = false
+dev-mode = false
+
+
+# [envs.hatch-static-analysis.scripts]
+# lint-check = [
+#   "mypy --install-types --non-interactive {args:src/foxy_changelog tests}",
+#   "ruff check{env:HATCH_FMT_ARGS} {args:.}",
+# ]
+# lint-fix = [
+#   "mypy --install-types --non-interactive {args:src/foxy_changelog tests}",
+#   "ruff check{env:HATCH_FMT_ARGS} --fix {args:.}",
+# ]

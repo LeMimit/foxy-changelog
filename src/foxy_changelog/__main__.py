@@ -1,28 +1,37 @@
+from __future__ import annotations
+
 import logging
 import os
-from typing import Any, Optional
+
+from typing import TYPE_CHECKING
+from typing import Any
 
 import click
 
-from auto_changelog import set_github, set_gitlab
-from auto_changelog.domain_model import PresenterInterface, RepositoryInterface
-from auto_changelog.presenter import MarkdownPresenter, default_template
-from auto_changelog.repository import GitRepository
+from foxy_changelog import set_github
+from foxy_changelog import set_gitlab
+from foxy_changelog.presenter import MarkdownPresenter
+from foxy_changelog.presenter import default_template
+from foxy_changelog.repository import GitRepository
 
 
-def validate_template(ctx, param, value):  # pylint: disable=unused-argument
+if TYPE_CHECKING:
+    from foxy_changelog.domain_model import PresenterInterface
+    from foxy_changelog.domain_model import RepositoryInterface
 
-    # Check if an embedded template is passed in parameter
-    if value in default_template:
+
+def validate_template(ctx: Any, param: Any, value: str) -> str:  # noqa: ARG001
+    # Check if an embedded template is passed in parameter or a jinja2 file
+    if value in default_template or value.endswith(".jinja2"):
         return value
-    # Check if the custom template is a jinja2 file
-    elif value.endswith(".jinja2"):
-        return value
-    else:
-        raise click.BadParameter("Need to pass an embedded template name or a .jinja2 file")
+
+    msg = "Need to pass an embedded template name or a .jinja2 file"
+    raise click.BadParameter(msg)
 
 
-def generate_changelog(repository: RepositoryInterface, presenter: PresenterInterface, *args, **kwargs) -> Any:
+def generate_changelog(
+    repository: RepositoryInterface, presenter: PresenterInterface, *args: Any, **kwargs: Any
+) -> Any:
     """Use-case function coordinates repository and interface"""
     changelog = repository.generate_changelog(*args, **kwargs)
     return presenter.present(changelog)
@@ -81,27 +90,27 @@ def generate_changelog(repository: RepositoryInterface, presenter: PresenterInte
     is_flag=True,
     help="set logging level to DEBUG",
 )
-def main(  # pylint: disable=too-many-arguments,too-many-locals
-    path_repo,
-    gitlab,
-    github,
-    title,
-    description,
-    output,
-    remote,
+def main(
+    path_repo: str,
+    gitlab: str,
+    github: str,
+    title: str,
+    description: str,
+    output: Any,
+    remote: str,
     latest_version: str,
-    unreleased: bool,
-    template,
-    diff_url,
-    issue_url,
-    issue_pattern,
-    tag_prefix,
-    stdout: bool,
-    tag_pattern: Optional[str],
+    unreleased: bool,  # noqa: FBT001
+    template: str,
+    diff_url: str,
+    issue_url: str,
+    issue_pattern: str,
+    tag_prefix: str,
+    stdout: bool,  # noqa: FBT001
+    tag_pattern: str | None,
     starting_commit: str,
     stopping_commit: str,
-    debug: bool,
-):
+    debug: bool,  # noqa: FBT001
+) -> None:
     if debug:
         logging.basicConfig(level=logging.DEBUG)
         logging.debug("Logging level has been set to DEBUG")
@@ -137,6 +146,6 @@ def main(  # pylint: disable=too-many-arguments,too-many-locals
     )
 
     if stdout:
-        print(changelog)
+        print(changelog)  # noqa: T201
     else:
         output.write(changelog)

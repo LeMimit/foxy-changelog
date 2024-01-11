@@ -1,8 +1,11 @@
-from datetime import date, timedelta
+from __future__ import annotations
+
+from datetime import date
+from datetime import timedelta
 
 import pytest
 
-from auto_changelog.domain_model import Changelog
+from foxy_changelog.domain_model import Changelog
 
 
 def test_empty_changelog():

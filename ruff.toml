@@ -1,0 +1,18 @@
+extend = "ruff_defaults.toml"
+extend-select = ["I"]
+
+# https://github.com/astral-sh/ruff/issues/8627
+exclude = [".git", ".mypy_cache", ".ruff_cache", ".direnv", "dist"]
+
+[format]
+preview = false
+
+[lint]
+preview = false
+
+[lint.isort]
+lines-between-types = 1
+lines-after-imports = 2
+combine-as-imports = true
+force-single-line = true
+required-imports = ["from __future__ import annotations"]

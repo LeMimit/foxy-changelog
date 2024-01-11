@@ -170,6 +170,7 @@ celerybeat-schedule
 
 # Environments
 .env
+.direnv
 .venv
 env/
 venv/
@@ -197,3 +198,6 @@ dmypy.json
 
 # sandbox manual testing directory
 sandbox/
+
+# ruff
+.ruff_cache/

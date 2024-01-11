@@ -1,9 +1,14 @@
+from __future__ import annotations
+
 import os
 import re
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment
+from jinja2 import FileSystemLoader
 
-from auto_changelog.domain_model import Changelog, PresenterInterface
+from foxy_changelog.domain_model import Changelog
+from foxy_changelog.domain_model import PresenterInterface
+
 
 default_template_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "templates")
 
@@ -11,8 +16,7 @@ default_template = {"compact": "compact.jinja2"}
 
 
 class MarkdownPresenter(PresenterInterface):  # pylint: disable=too-few-public-methods
-    def __init__(self, template=None, issue_url=None):
-
+    def __init__(self, template=None, issue_url=None):  # noqa: ARG002
         # It is an embedded template
         if template in default_template:
             template_dir = default_template_dir
@@ -27,8 +31,7 @@ class MarkdownPresenter(PresenterInterface):  # pylint: disable=too-few-public-m
 
     def present(self, changelog: Changelog) -> str:
         text = self.template.render(changelog=changelog)
-        text = self._link(changelog.issue_url, changelog.issue_pattern, text)
-        return text
+        return self._link(changelog.issue_url, changelog.issue_pattern, text)
 
     @staticmethod
     def _link(url, pattern, text: str) -> str:

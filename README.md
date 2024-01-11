@@ -1,6 +1,6 @@
 # 🦊 Foxy changelog
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > This repository is a fork of [auto-changelog](https://github.com/KeNaCo/auto-changelog).
 > I decided to do it because auto-changelog is not maintained anymore and I need some changes for my personal usage.
 > I will publish these changes for everyone to use but I do not promise to answer to feature request and bug fixes.
