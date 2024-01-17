@@ -7,3 +7,16 @@
 {% endfor -%}
 {%- endif -%}
 {%- endmacro -%}
+
+
+{%- macro section_table(title, dependency_updates) -%}
+{%- if dependency_updates %}
+### {{ title }}
+
+| Dependency  | Previous version  | New version   |
+|:------------|:------------------|:--------------|
+{% for dependency_update in dependency_updates -%}
+|{{ dependency_update.name }}|{{ dependency_update.previous_version }}|{{ dependency_update.next_version }}|
+{% endfor -%}
+{%- endif -%}
+{%- endmacro -%}
