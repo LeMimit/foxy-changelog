@@ -204,7 +204,8 @@ class Release(Note):
         self.diff_url = diff_url.format(previous=previous_tag, current=self.tag)
 
     def _notes_with(self, predicate: Callable) -> tuple[Note, ...]:
-        return tuple(filter(predicate, self._notes))
+        filtered_note = filter(predicate, self._notes)
+        return tuple(sorted(filtered_note, key=lambda note: note.scope))
 
     def _notes_with_type(self, type_: ChangeType) -> tuple[Note, ...]:
         return self._notes_with(lambda x: x.change_type == type_)
