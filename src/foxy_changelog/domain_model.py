@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import re
 
 from abc import ABC
 from abc import abstractmethod
@@ -14,6 +15,7 @@ from foxy_changelog import default_issue_pattern
 # Default aim for Semver tags.
 # Original Semver source: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 default_tag_pattern = r"(?P<version>((?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*))(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)"  # noqa: E501
+semver_regex = r"((?:0|[1-9]\d*\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?))"  # noqa: E501
 
 
 class ChangeType(Enum):
@@ -62,6 +64,27 @@ class Note:
         )
 
 
+class DependencyUpdate:
+    def __init__(
+        self,
+        name: str,
+        previous_version: str,
+        next_version: str,
+    ):
+        self.name = name
+        self.previous_version = previous_version
+        self.next_version = next_version
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, DependencyUpdate):
+            return NotImplemented
+        return (
+            self.name == other.name
+            and self.previous_version == other.previous_version
+            and self.next_version == other.next_version
+        )
+
+
 class Release(Note):
     def __init__(
         self,
@@ -98,6 +121,23 @@ class Release(Note):
     @property
     def deps(self) -> tuple[Note, ...]:
         return self._notes_with_type(ChangeType.DEPS)
+
+    @property
+    def deps_table(self) -> list[DependencyUpdate]:
+        deps_notes = self._notes_with_type(ChangeType.DEPS)
+        map_deps: dict[str, DependencyUpdate] = {}
+        regex = re.compile(f"from {semver_regex} to {semver_regex}")
+        for deps_note in deps_notes:
+            match = regex.match(deps_note.description)
+            if match:
+                if deps_note.scope in map_deps:
+                    map_deps[deps_note.scope].previous_version = match.group(1)
+                else:
+                    map_deps[deps_note.scope] = DependencyUpdate(
+                        name=deps_note.scope, previous_version=match.group(1), next_version=match.group(3)
+                    )
+
+        return list(map_deps.values())
 
     @property
     def docs(self) -> tuple[Note, ...]:
