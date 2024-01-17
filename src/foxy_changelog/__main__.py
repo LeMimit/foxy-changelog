@@ -52,7 +52,7 @@ def generate_changelog(
 @click.option(
     "-o",
     "--output",
-    type=click.File("w"),
+    type=click.File("wb"),
     default="CHANGELOG.md",
     help="The place to save the generated changelog [Default: CHANGELOG.md]",
 )
@@ -148,4 +148,4 @@ def main(
     if stdout:
         print(changelog)  # noqa: T201
     else:
-        output.write(changelog)
+        output.write(changelog.encode("utf-8"))
