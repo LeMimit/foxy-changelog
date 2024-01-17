@@ -20,6 +20,7 @@ class ChangeType(Enum):
     BUILD = "build"
     CI = "ci"
     CHORE = "chore"
+    DEPS = "deps"
     DOCS = "docs"
     FEAT = "feat"
     FIX = "fix"
@@ -28,6 +29,8 @@ class ChangeType(Enum):
     REVERT = "revert"
     STYLE = "style"
     TEST = "test"
+    TOOLS = "tools"
+    VERSION = "version"
 
 
 class Note:
@@ -93,6 +96,10 @@ class Release(Note):
         return self._notes_with_type(ChangeType.CHORE)
 
     @property
+    def deps(self) -> tuple[Note, ...]:
+        return self._notes_with_type(ChangeType.DEPS)
+
+    @property
     def docs(self) -> tuple[Note, ...]:
         return self._notes_with_type(ChangeType.DOCS)
 
@@ -125,6 +132,14 @@ class Release(Note):
         return self._notes_with_type(ChangeType.TEST)
 
     @property
+    def tools(self) -> tuple[Note, ...]:
+        return self._notes_with_type(ChangeType.TOOLS)
+
+    @property
+    def version(self) -> tuple[Note, ...]:
+        return self._notes_with_type(ChangeType.VERSION)
+
+    @property
     def has_builds(self) -> bool:
         return self._has(ChangeType.BUILD)
 
@@ -135,6 +150,10 @@ class Release(Note):
     @property
     def has_chore(self) -> bool:
         return self._has(ChangeType.CHORE)
+
+    @property
+    def has_deps(self) -> bool:
+        return self._has(ChangeType.DEPS)
 
     @property
     def has_docs(self) -> bool:
@@ -167,6 +186,14 @@ class Release(Note):
     @property
     def has_tests(self) -> bool:
         return self._has(ChangeType.TEST)
+
+    @property
+    def has_tools(self) -> bool:
+        return self._has(ChangeType.TOOLS)
+
+    @property
+    def has_version(self) -> bool:
+        return self._has(ChangeType.VERSION)
 
     def add_note(self, note: Note) -> None:
         self._notes.append(note)
