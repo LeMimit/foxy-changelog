@@ -54,9 +54,10 @@ Options:
                            messages. Should contain two groups, original
                            match and ID used by issue-url.
 
---tag-pattern TEXT         override regex pattern for release tags. By
-                           default use semver tag names semantic. tag should
-                           be contain in one group named 'version'.
+--tag-pattern TEXT         Specify regex pattern for version tags [semver,
+                           calendar, custom-regex]. A custom regex containing
+                           one group named 'version' can be specified.
+                           [default: semver]
 
 --tag-prefix TEXT          prefix used in version tags, default: ""
 --stdout

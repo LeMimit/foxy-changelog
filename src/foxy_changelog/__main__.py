@@ -75,14 +75,13 @@ def generate_changelog(
 )
 @click.option(
     "--tag-pattern",
-    default=None,
-    help="override regex pattern for release tags. "
-    "By default use semver tag names semantic. "
-    "tag should be contain in one group named 'version'.",
+    default="semver",
+    help="Specify regex pattern for version tags [semver, calendar, custom-regex]."
+    " A custom regex containing one group named 'version' can be specified.",
+    show_default=True,
 )
 @click.option("--tag-prefix", default="", help='prefix used in version tags, default: "" ')
 @click.option("--stdout", is_flag=True)
-@click.option("--tag-pattern", default=None, help="Override regex pattern for release tags")
 @click.option("--starting-commit", help="Starting commit to use for changelog generation", default="")
 @click.option("--stopping-commit", help="Stopping commit to use for changelog generation", default="HEAD")
 @click.option(
@@ -106,7 +105,7 @@ def main(
     issue_pattern: str,
     tag_prefix: str,
     stdout: bool,  # noqa: FBT001
-    tag_pattern: str | None,
+    tag_pattern: str,
     starting_commit: str,
     stopping_commit: str,
     debug: bool,  # noqa: FBT001
