@@ -62,7 +62,7 @@ Options:
 
 ## Version management
 
-`foxy-changelog` is providing support to automatically generate the version of your project according to commit history.
+`foxy-changelog` is providing support to automatically generate the version of your python project according their commit history.
 
 The management is based on [setuptools_scm](https://github.com/pypa/setuptools_scm) and [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/).
 
@@ -87,7 +87,7 @@ Rules:
 
 ### calendar-conventional-commit-foxy
 
-To manage the version with a version based on the calendar. The supported convention is YYYY.MM.Patch with Patch a number not 0-padded starting to 1. (example: 2024.01.1).
+To manage version based on the calendar. The supported convention is YYYY.MM.Patch with Patch a number not 0-padded starting to 1. (example: 2024.01.1).
 
 Rules:
 
