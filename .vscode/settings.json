@@ -15,5 +15,6 @@
   "files.watcherExclude": {
     "**/.direnv/**": true
   },
-  "editor.rulers": [120]
+  "editor.rulers": [120],
+  "markdown.extension.toc.levels": "2..6"
 }

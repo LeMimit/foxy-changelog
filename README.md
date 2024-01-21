@@ -7,7 +7,14 @@
 >
 > **Sadly I do not have time to provide steps to contribute and not everything will be tested.**
 
-A quick script that will generate a changelog for any git repository using [`conventional style`](https://www.conventionalcommits.org/en/v1.0.0/) commit messages.
+A quick script which generates a changelog and manage version for any git repository using [`conventional style`](https://www.conventionalcommits.org/en/v1.0.0/) commit messages.
+
+- [Installation](#installation)
+- [Command line interface](#command-line-interface)
+- [Version management](#version-management)
+  - [semver-conventional-commit-foxy](#semver-conventional-commit-foxy)
+  - [calendar-conventional-commit-foxy](#calendar-conventional-commit-foxy)
+  - [Hatch](#hatch)
 
 ## Installation
 
