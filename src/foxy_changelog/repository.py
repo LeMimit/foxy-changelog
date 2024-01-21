@@ -16,7 +16,7 @@ from foxy_changelog import default_diff_url
 from foxy_changelog import default_issue_url
 from foxy_changelog.domain_model import Changelog
 from foxy_changelog.domain_model import RepositoryInterface
-from foxy_changelog.domain_model import default_tag_pattern
+from foxy_changelog.domain_model import semver_nammed_regex
 
 
 if TYPE_CHECKING:
@@ -178,7 +178,7 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
     ) -> dict[Commit, list[TagReference]]:
         """Create reverse index"""
         reverse_tag_index: dict[Commit, list[TagReference]] = {}
-        semver_regex = default_tag_pattern
+        semver_regex = semver_nammed_regex
         for tagref in repo.tags:
             tag_name = tagref.name
             commit = tagref.commit
