@@ -1,6 +1,24 @@
 # Foxy changelog
 
-A small program that will generate a changelog from git repos using "conventional style" commit messages
+A tool which generates a changelog and manage version for any git repository using conventional style.
+
+## 1.1.0
+
+> `2024-01-21`
+
+### New features 🚀
+
+* **version**: add version management support ([#15](https://github.com/LeMimit/foxy-changelog/issues/15))
+
+### Fixes 🐞
+
+* **commit**: add missing import ([#16](https://github.com/LeMimit/foxy-changelog/issues/16))
+
+### Continuous integration 🐹
+
+* **python**: remove unused and not working workflow ([#17](https://github.com/LeMimit/foxy-changelog/issues/17))
+
+Full set of changes: [`1.0.0...1.1.0`](https://github.com/LeMimit/foxy-changelog/compare/1.0.0...1.1.0)
 
 ## 1.0.0
 
