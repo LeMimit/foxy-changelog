@@ -201,3 +201,6 @@ sandbox/
 
 # ruff
 .ruff_cache/
+
+# version management
+_version.py

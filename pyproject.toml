@@ -1,5 +1,10 @@
 [build-system]
-requires = ["hatchling", "hatch-requirements-txt"]
+requires = [
+    "hatchling",
+    "hatch-requirements-txt",
+    "hatch-vcs",
+    "foxy-changelog>=1.1.0.dev3",
+]
 build-backend = "hatchling.build"
 
 [project]
@@ -40,8 +45,19 @@ Source = "https://github.com/LeMimit/foxy-changelog"
 [project.scripts]
 foxy-changelog = "foxy_changelog.__main__:main"
 
+[project.entry-points."setuptools_scm.version_scheme"]
+"calendar-conventional-commit-foxy" = "foxy_changelog.setuptools_scm.version_scheme:calendar_conventional_commit_foxy"
+"semver-conventional-commit-foxy" = "foxy_changelog.setuptools_scm.version_scheme:semver_conventional_commit_foxy"
+
 [tool.hatch.version]
-path = "src/foxy_changelog/__about__.py"
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+version_scheme = "semver-conventional-commit-foxy"
+local_scheme = "no-local-version"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/foxy_changelog/_version.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/foxy_changelog"]
