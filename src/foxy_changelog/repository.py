@@ -4,6 +4,7 @@ import logging
 import re
 
 from datetime import date
+from enum import StrEnum
 from hashlib import sha256
 from typing import TYPE_CHECKING
 from typing import Any
@@ -16,11 +17,17 @@ from foxy_changelog import default_diff_url
 from foxy_changelog import default_issue_url
 from foxy_changelog.domain_model import Changelog
 from foxy_changelog.domain_model import RepositoryInterface
+from foxy_changelog.domain_model import calendar_nammed_regex
 from foxy_changelog.domain_model import semver_nammed_regex
 
 
 if TYPE_CHECKING:
     from git.objects import Commit
+
+
+class TagPattern(StrEnum):
+    SEMVER = "semver"
+    CALENDAR = "calendar"
 
 
 class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-methods
@@ -30,7 +37,7 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
         latest_version: str | None = None,
         skip_unreleased: bool = True,
         tag_prefix: str = "",
-        tag_pattern: str | None = None,
+        tag_pattern: str = "semver",
     ):
         self.repository = Repo(repository_path)
         self.tag_prefix = tag_prefix
@@ -174,11 +181,10 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
 
     @staticmethod
     def _init_commit_tags_index(
-        repo: Repo, tag_prefix: str, tag_pattern: Optional[str] = None
+        repo: Repo, tag_prefix: str, tag_pattern: str = "semver"
     ) -> dict[Commit, list[TagReference]]:
         """Create reverse index"""
         reverse_tag_index: dict[Commit, list[TagReference]] = {}
-        semver_regex = semver_nammed_regex
         for tagref in repo.tags:
             tag_name = tagref.name
             commit = tagref.commit
@@ -189,14 +195,12 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
             if tag_name.startswith(tag_prefix):
                 tag_name = tag_name.replace(tag_prefix, "")
 
-                # if user specified a tag pattern => consider it
-                if tag_pattern is not None:
-                    if re.fullmatch(tag_pattern, tag_name):
-                        consider_tag = True
-                # no tag pattern specified by user => check semver semantic
-                elif re.fullmatch(semver_regex, tag_name):
+                if (tag_pattern == TagPattern.SEMVER and re.fullmatch(semver_nammed_regex, tag_name)) or (  # noqa: SIM114
+                    tag_pattern == TagPattern.CALENDAR and re.fullmatch(calendar_nammed_regex, tag_name)
+                ):
                     consider_tag = True
-
+                elif re.fullmatch(tag_pattern, tag_name):
+                    consider_tag = True
             # good format of the tag => consider it
             if consider_tag:
                 if commit not in reverse_tag_index:
