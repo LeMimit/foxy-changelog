@@ -7,7 +7,7 @@
 >
 > **Sadly I do not have time to provide steps to contribute and not everything will be tested.**
 
-A quick script which generates a changelog and manage version for any git repository using [`conventional style`](https://www.conventionalcommits.org/en/v1.0.0/) commit messages.
+A tool which generates a changelog and manage version for any git repository using [`conventional style`](https://www.conventionalcommits.org/en/v1.0.0/) commit messages.
 
 - [Installation](#installation)
 - [Command line interface](#command-line-interface)
