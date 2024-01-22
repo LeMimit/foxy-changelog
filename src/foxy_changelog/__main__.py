@@ -3,13 +3,16 @@ from __future__ import annotations
 import logging
 import os
 
+from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Iterator
 
 import click
 
 from foxy_changelog import set_github
 from foxy_changelog import set_gitlab
+from foxy_changelog._config import Configuration
 from foxy_changelog.presenter import MarkdownPresenter
 from foxy_changelog.presenter import default_template
 from foxy_changelog.repository import GitRepository
@@ -20,9 +23,9 @@ if TYPE_CHECKING:
     from foxy_changelog.domain_model import RepositoryInterface
 
 
-def validate_template(ctx: Any, param: Any, value: str) -> str:  # noqa: ARG001
+def validate_template(ctx: Any, param: Any, value: str | None) -> str | None:  # noqa: ARG001
     # Check if an embedded template is passed in parameter or a jinja2 file
-    if value in default_template or value.endswith(".jinja2"):
+    if value is None or (value in default_template or value.endswith(".jinja2")):
         return value
 
     msg = "Need to pass an embedded template name or a .jinja2 file"
@@ -38,8 +41,25 @@ def generate_changelog(
 
 
 @click.command()
-@click.option("--gitlab", help="Set Gitlab Pattern Generation.", is_flag=True)
-@click.option("--github", help="Set GitHub Pattern Generation.", is_flag=True)
+@click.option(
+    "-c",
+    "--config",
+    type=click.Path(exists=True),
+    default=None,
+    help="path to 'pyproject.toml' with foxy-changelog config, default: looked up in the current or parent directories",
+)
+@click.option(
+    "--gitlab",
+    help="Set Gitlab Pattern Generation.",
+    is_flag=True,
+    default=None,
+)
+@click.option(
+    "--github",
+    help="Set GitHub Pattern Generation.",
+    is_flag=True,
+    default=None,
+)
 @click.option(
     "-p",
     "--path-repo",
@@ -47,130 +67,189 @@ def generate_changelog(
     default=".",
     help="Path to the repository's root directory [Default: .]",
 )
-@click.option("-t", "--title", default="Changelog", help="The changelog's title [Default: Changelog]")
-@click.option("-d", "--description", help="Your project's description")
+@click.option("-t", "--title", default=None, type=str, help="The changelog's title [Default: Changelog]")
+@click.option("-d", "--description", default=None, type=str, help="Your project's description")
 @click.option(
     "-o",
     "--output",
-    type=click.File("r+b"),
-    default="CHANGELOG.md",
+    type=click.Path(exists=True),
+    default=None,
     help="The place to save the generated changelog [Default: CHANGELOG.md]",
 )
-@click.option("-r", "--remote", default="origin", help="Specify git remote to use for links")
-@click.option("-v", "--latest-version", type=str, help="use specified version as latest release")
-@click.option("-u", "--unreleased", is_flag=True, default=False, help="Include section for unreleased changes")
+@click.option("-r", "--remote", type=str, default=None, help="Specify git remote to use for links")
+@click.option("-v", "--latest-version", type=str, default=None, help="use specified version as latest release")
+@click.option("-u", "--unreleased", is_flag=True, default=None, help="Include section for unreleased changes")
 @click.option(
     "--template",
     callback=validate_template,
-    default="compact",
+    type=str,
+    default=None,
     help="specify template to use [compact] or a path to a custom template, default: compact ",
 )
-@click.option("--diff-url", default=None, help="override url for compares, use {current} and {previous} for tags")
-@click.option("--issue-url", default=None, help="Override url for issues, use {id} for issue id")
+@click.option(
+    "--diff-url", type=str, default=None, help="override url for compares, use {current} and {previous} for tags"
+)
+@click.option("--issue-url", type=str, default=None, help="Override url for issues, use {id} for issue id")
 @click.option(
     "--issue-pattern",
-    default=r"(#([\w-]+))",
+    type=str,
+    default=None,
     help="Override regex pattern for issues in commit messages. Should contain two groups, original match and ID used "
     "by issue-url.",
 )
 @click.option(
     "--tag-pattern",
-    default="semver",
+    type=str,
+    default=None,
     help="Specify regex pattern for version tags [semver, calendar, custom-regex]."
     " A custom regex containing one group named 'version' can be specified.",
     show_default=True,
 )
-@click.option("--tag-prefix", default="", help='prefix used in version tags, default: "" ')
-@click.option("--stdout", is_flag=True)
-@click.option("--starting-commit", help="Starting commit to use for changelog generation", default="")
-@click.option("--stopping-commit", help="Stopping commit to use for changelog generation", default="HEAD")
+@click.option("--tag-prefix", type=str, default=None, help='prefix used in version tags, default: "" ')
+@click.option(
+    "--stdout",
+    is_flag=True,
+    default=None,
+)
+@click.option("--starting-commit", type=str, help="Starting commit to use for changelog generation", default=None)
+@click.option("--stopping-commit", type=str, help="Stopping commit to use for changelog generation", default=None)
 @click.option(
     "--debug",
     is_flag=True,
+    default=False,
     help="set logging level to DEBUG",
 )
 def main(
-    path_repo: str,
-    gitlab: str,
-    github: str,
-    title: str,
-    description: str,
-    output: Any,
-    remote: str,
-    latest_version: str,
-    unreleased: bool,  # noqa: FBT001
-    template: str,
-    diff_url: str,
-    issue_url: str,
-    issue_pattern: str,
-    tag_prefix: str,
-    stdout: bool,  # noqa: FBT001
-    tag_pattern: str,
-    starting_commit: str,
-    stopping_commit: str,
-    debug: bool,  # noqa: FBT001
+    config: click.Path | None,
+    path_repo: click.Path,
+    gitlab: bool | None,
+    github: bool | None,
+    title: str | None,
+    description: str | None,
+    output: click.Path | None,
+    remote: str | None,
+    latest_version: str | None,
+    unreleased: bool | None,
+    template: str | None,
+    diff_url: str | None,
+    issue_url: str | None,
+    issue_pattern: str | None,
+    tag_prefix: str | None,
+    stdout: bool | None,
+    tag_pattern: str | None,
+    starting_commit: str | None,
+    stopping_commit: str | None,
+    debug: bool | None,
 ) -> None:
     if debug:
         logging.basicConfig(level=logging.DEBUG)
         logging.debug("Logging level has been set to DEBUG")
 
-    if gitlab:
+    pyproject = config or _find_pyproject(str(path_repo))
+
+    # try:
+    configuration = Configuration.from_file(str(pyproject), root=os.path.abspath(str(path_repo)))
+    configuration = configuration.copy(
+        {
+            "gitlab": gitlab,
+            "github": github,
+            "title": title,
+            "description": description,
+            "output": Path(str(output)) if output is not None else None,
+            "remote": remote,
+            "latest_version": latest_version,
+            "unreleased": unreleased,
+            "template": template,
+            "diff_url": diff_url,
+            "issue_url": issue_url,
+            "issue_pattern": issue_pattern,
+            "tag_prefix": tag_prefix,
+            "stdout": stdout,
+            "tag_pattern": tag_pattern,
+            "starting_commit": starting_commit,
+            "stopping_commit": stopping_commit,
+        }
+    )
+
+    if configuration.gitlab:
         set_gitlab()
 
-    if github:
+    if configuration.github:
         set_github()
 
     # Convert the repository name to an absolute path
-    repo = os.path.abspath(path_repo)
+    repo = os.path.abspath(str(path_repo))
 
     repository = GitRepository(
         repo,
-        latest_version=latest_version,
-        skip_unreleased=not unreleased,
-        tag_prefix=tag_prefix,
-        tag_pattern=tag_pattern,
+        latest_version=configuration.latest_version,
+        skip_unreleased=not configuration.unreleased,
+        tag_prefix=configuration.tag_prefix,
+        tag_pattern=configuration.tag_pattern,
     )
-    presenter = MarkdownPresenter(template=template)
+    presenter = MarkdownPresenter(template=configuration.template)
     changelog = generate_changelog(
         repository,
         presenter,
-        title,
-        description,
-        remote=remote,
-        issue_pattern=issue_pattern,
-        issue_url=issue_url,
-        diff_url=diff_url,
-        starting_commit=starting_commit,
-        stopping_commit=stopping_commit,
+        title=configuration.title,
+        description=configuration.description,
+        remote=configuration.remote,
+        issue_pattern=configuration.issue_pattern,
+        issue_url=configuration.issue_url,
+        diff_url=configuration.diff_url,
+        starting_commit=configuration.starting_commit,
+        stopping_commit=configuration.stopping_commit,
     )
 
     if stdout:
         print(changelog)  # noqa: T201
     else:
-        _write_changelog(output=output, changelog=changelog)
+        _write_changelog(output=configuration.output, changelog=changelog)
 
 
 PATTERN = "<!-- foxy-changelog-above -->"
 
 
-def _write_changelog(output: Any, changelog: Any) -> None:
-    lines = [line.decode("utf-8").rstrip() for line in output]
-    kept_lines: list[str] = []
-    is_pattern_found = False
-    # Kept the lines after the pattern
-    for line in lines:
-        if is_pattern_found:
-            kept_lines.append(line)
-        if PATTERN in line:
-            is_pattern_found = True
-            kept_lines.append(line)
-    # Remove all the content of the file
-    output.seek(0)
-    output.truncate()
-    # First writes the new generated changelog
-    # Second if some lines are kept, writes it back after the generated changelog
-    output.write(changelog.encode("utf-8"))
-    if len(kept_lines) > 0:
-        output.write(b"\n")
-        for line in kept_lines:
-            output.write(f"{line}\n".encode())
+def _write_changelog(output: Path, changelog: Any) -> None:
+    with open(output, "a+b") as output_file:
+        lines = [line.decode("utf-8").rstrip() for line in output_file]
+        kept_lines: list[str] = []
+        is_pattern_found = False
+        # Kept the lines after the pattern
+        for line in lines:
+            if is_pattern_found:
+                kept_lines.append(line)
+            if PATTERN in line:
+                is_pattern_found = True
+                kept_lines.append(line)
+        # Remove all the content of the file
+        output_file.seek(0)
+        output_file.truncate()
+        # First writes the new generated changelog
+        # Second if some lines are kept, writes it back after the generated changelog
+        output_file.write(changelog.encode("utf-8"))
+        if len(kept_lines) > 0:
+            output_file.write(b"\n")
+            for line in kept_lines:
+                output_file.write(f"{line}\n".encode())
+
+
+def _find_pyproject(parent: str) -> str:
+    for directory in walk_potential_roots(os.path.abspath(parent)):
+        pyproject = os.path.join(directory, "pyproject.toml")
+        if os.path.isfile(pyproject):
+            return pyproject
+
+    return os.path.abspath("pyproject.toml")  # use default name to trigger the default errors
+
+
+def walk_potential_roots(root: str, *, search_parents: bool = True) -> Iterator[Path]:
+    """
+    Iterate though a path and each of its parents.
+    :param root: File path.
+    :param search_parents: If ``False`` the parents are not considered.
+    """
+    root_path = Path(root)
+    yield root_path
+    if search_parents:
+        yield from root_path.parents
