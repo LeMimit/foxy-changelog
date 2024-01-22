@@ -10,11 +10,13 @@
 A tool which generates a changelog and manage version for any git repository using [`conventional style`](https://www.conventionalcommits.org/en/v1.0.0/) commit messages.
 
 - [Installation](#installation)
-- [Command line interface](#command-line-interface)
+- [Changelog generation](#changelog-generation)
+  - [Add to an existing changelog](#add-to-an-existing-changelog)
 - [Version management](#version-management)
   - [semver-conventional-commit-foxy](#semver-conventional-commit-foxy)
   - [calendar-conventional-commit-foxy](#calendar-conventional-commit-foxy)
   - [Hatch](#hatch)
+- [Command line interface](#command-line-interface)
 
 ## Installation
 
@@ -24,53 +26,19 @@ It is recommanded to install this tool with [`pipx`](https://github.com/pypa/pip
 pipx install foxy-changelog
 ```
 
-## Command line interface
+## Changelog generation
 
-You can list the command line options by running `foxy-changelog --help`:
+### Add to an existing changelog
 
-```console
-Usage: foxy-changelog [OPTIONS]
+If you’d like to keep an existing changelog below your generated one, just add `<!-- foxy-changelog-above -->` to your current changelog.
+The generated changelog will be added above this token, and anything below will remain.
 
-Options:
--p, --path-repo PATH       Path to the repository's root directory
-                           [Default: .]
-
--t, --title TEXT           The changelog's title [Default: Changelog]
--d, --description TEXT     Your project's description
--o, --output FILENAME      The place to save the generated changelog
-                           [Default: CHANGELOG.md]
-
--r, --remote TEXT          Specify git remote to use for links
--v, --latest-version TEXT  use specified version as latest release
--u, --unreleased           Include section for unreleased changes
---template TEXT            specify template to use [compact] or a path to a
-                           custom template, default: compact
-
---diff-url TEXT            override url for compares, use {current} and
-                           {previous} for tags
-
---issue-url TEXT           Override url for issues, use {id} for issue id
---issue-pattern TEXT       Override regex pattern for issues in commit
-                           messages. Should contain two groups, original
-                           match and ID used by issue-url.
-
---tag-pattern TEXT         Specify regex pattern for version tags [semver,
-                           calendar, custom-regex]. A custom regex containing
-                           one group named 'version' can be specified.
-                           [default: semver]
-
---tag-prefix TEXT          prefix used in version tags, default: ""
---stdout
---tag-pattern TEXT         Override regex pattern for release tags
---starting-commit TEXT     Starting commit to use for changelog generation
---stopping-commit TEXT     Stopping commit to use for changelog generation
---debug                    set logging level to DEBUG
---help                     Show this message and exit.
-```
+> [!TIP]
+> This is quite useful when changing the tag pattern (e.g. from semver to calendar) used to version a project or to help keeping an old manually generated changelog when integrated conventional commit to a project to integrate foxy-changelog.
 
 ## Version management
 
-`foxy-changelog` is providing support to automatically generate the version of your python project according their commit history.
+`foxy-changelog` is providing support to automatically generate the version of your python project according to its commit history.
 
 The management is based on [setuptools_scm](https://github.com/pypa/setuptools_scm) and [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/).
 
@@ -122,4 +90,48 @@ source = "vcs"
 
 [tool.hatch.version.raw-options]
 version_scheme = "semver-conventional-commit-foxy"
+```
+
+## Command line interface
+
+You can list the command line options by running `foxy-changelog --help`:
+
+```console
+Usage: foxy-changelog [OPTIONS]
+
+Options:
+-p, --path-repo PATH       Path to the repository's root directory
+                           [Default: .]
+
+-t, --title TEXT           The changelog's title [Default: Changelog]
+-d, --description TEXT     Your project's description
+-o, --output FILENAME      The place to save the generated changelog
+                           [Default: CHANGELOG.md]
+
+-r, --remote TEXT          Specify git remote to use for links
+-v, --latest-version TEXT  use specified version as latest release
+-u, --unreleased           Include section for unreleased changes
+--template TEXT            specify template to use [compact] or a path to a
+                           custom template, default: compact
+
+--diff-url TEXT            override url for compares, use {current} and
+                           {previous} for tags
+
+--issue-url TEXT           Override url for issues, use {id} for issue id
+--issue-pattern TEXT       Override regex pattern for issues in commit
+                           messages. Should contain two groups, original
+                           match and ID used by issue-url.
+
+--tag-pattern TEXT         Specify regex pattern for version tags [semver,
+                           calendar, custom-regex]. A custom regex containing
+                           one group named 'version' can be specified.
+                           [default: semver]
+
+--tag-prefix TEXT          prefix used in version tags, default: ""
+--stdout
+--tag-pattern TEXT         Override regex pattern for release tags
+--starting-commit TEXT     Starting commit to use for changelog generation
+--stopping-commit TEXT     Stopping commit to use for changelog generation
+--debug                    set logging level to DEBUG
+--help                     Show this message and exit.
 ```

@@ -52,7 +52,7 @@ def generate_changelog(
 @click.option(
     "-o",
     "--output",
-    type=click.File("wb"),
+    type=click.File("r+b"),
     default="CHANGELOG.md",
     help="The place to save the generated changelog [Default: CHANGELOG.md]",
 )
@@ -147,4 +147,30 @@ def main(
     if stdout:
         print(changelog)  # noqa: T201
     else:
-        output.write(changelog.encode("utf-8"))
+        _write_changelog(output=output, changelog=changelog)
+
+
+PATTERN = "<!-- foxy-changelog-above -->"
+
+
+def _write_changelog(output: Any, changelog: Any) -> None:
+    lines = [line.decode("utf-8").rstrip() for line in output]
+    kept_lines: list[str] = []
+    is_pattern_found = False
+    # Kept the lines after the pattern
+    for line in lines:
+        if is_pattern_found:
+            kept_lines.append(line)
+        if PATTERN in line:
+            is_pattern_found = True
+            kept_lines.append(line)
+    # Remove all the content of the file
+    output.seek(0)
+    output.truncate()
+    # First writes the new generated changelog
+    # Second if some lines are kept, writes it back after the generated changelog
+    output.write(changelog.encode("utf-8"))
+    if len(kept_lines) > 0:
+        output.write(b"\n")
+        for line in kept_lines:
+            output.write(f"{line}\n".encode())
