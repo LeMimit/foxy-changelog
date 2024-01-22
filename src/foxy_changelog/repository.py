@@ -231,7 +231,7 @@ class GitRepository(RepositoryInterface):  # pylint: disable=too-few-public-meth
     def _parse_conventional_commit(message: str) -> tuple[str, str, str, str, str]:
         type_ = scope = description = body_footer = body = footer = ""
         # TODO this is less restrictive version of re. I have somewhere more restrictive one, maybe as option?
-        match = re.match(r"^(\w+)(\(\w+\))?!?: (.*)(\n\n[\w\W]*)?$", message.strip())
+        match = re.match(r"^(\w+)(\([\w\-.]+\))?!?: (.*)(\n\n[\w\W]*)?$", message.strip())
         if match:
             type_, scope, description, body_footer = match.groups(default="")
         else:
