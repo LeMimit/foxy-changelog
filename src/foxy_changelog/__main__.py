@@ -245,7 +245,7 @@ def _write_changelog(output: Path, changelog: Any) -> None:
 
 
 def _find_file(parent: str, name: str) -> str | None:
-    for directory in walk_potential_roots(os.path.abspath(parent)):
+    for directory in _walk_potential_roots(os.path.abspath(parent)):
         pyproject = os.path.join(directory, name)
         if os.path.isfile(pyproject):
             return pyproject
@@ -253,7 +253,7 @@ def _find_file(parent: str, name: str) -> str | None:
     return None
 
 
-def walk_potential_roots(root: str, *, search_parents: bool = True) -> Iterator[Path]:
+def _walk_potential_roots(root: str, *, search_parents: bool = True) -> Iterator[Path]:
     """
     Iterate though a path and each of its parents.
     :param root: File path.
