@@ -152,8 +152,8 @@ Options:
 -r, --remote TEXT          Specify git remote to use for links
 -v, --latest-version TEXT  use specified version as latest release
 -u, --unreleased           Include section for unreleased changes
---template TEXT            specify template to use [compact] or a path to a
-                           custom template, default: compact
+--template TEXT            specify template to use [compact, lastrelease] or a path
+                           to a custom template, default: compact
 
 --diff-url TEXT            override url for compares, use {current} and
                            {previous} for tags

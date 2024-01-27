@@ -36,7 +36,7 @@ def validate_template(ctx: Any, param: Any, value: str | None) -> str | None:  #
 
 def generate_changelog(
     repository: RepositoryInterface, presenter: PresenterInterface, *args: Any, **kwargs: Any
-) -> Any:
+) -> str:
     """Use-case function coordinates repository and interface"""
     changelog = repository.generate_changelog(*args, **kwargs)
     return presenter.present(changelog)
@@ -87,7 +87,7 @@ def generate_changelog(
     callback=validate_template,
     type=str,
     default=None,
-    help="specify template to use [compact] or a path to a custom template, default: compact ",
+    help="specify template to use [compact, lastrelease] or a path to a custom template, default: compact",
 )
 @click.option(
     "--diff-url", type=str, default=None, help="override url for compares, use {current} and {previous} for tags"

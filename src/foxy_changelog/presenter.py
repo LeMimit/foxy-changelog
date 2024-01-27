@@ -12,7 +12,7 @@ from foxy_changelog.domain_model import PresenterInterface
 
 default_template_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "templates")
 
-default_template = {"compact": "compact.jinja2"}
+default_template = {"compact": "compact.jinja2", "lastrelease": "lastrelease.jinja2"}
 
 
 class MarkdownPresenter(PresenterInterface):  # pylint: disable=too-few-public-methods
@@ -25,7 +25,7 @@ class MarkdownPresenter(PresenterInterface):  # pylint: disable=too-few-public-m
         else:
             template_dir, template_name = os.path.split(template)
 
-        env = Environment(loader=FileSystemLoader(template_dir))
+        env = Environment(loader=FileSystemLoader(template_dir), autoescape=True)
 
         self.template = env.get_template(template_name)
 
