@@ -2,12 +2,16 @@ from __future__ import annotations
 
 import logging
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import NamedTuple
 
-from foxy_changelog.setuptools_scm.code.setuptools import read_dist_name_from_setup_cfg
-from foxy_changelog.setuptools_scm.code.toml import TOML_RESULT
-from foxy_changelog.setuptools_scm.code.toml import read_toml_content
+from foxy_changelog.setuptools_scm.config.setuptools import read_dist_name_from_setup_cfg
+from foxy_changelog.setuptools_scm.config.toml import TOML_RESULT
+from foxy_changelog.setuptools_scm.config.toml import read_toml_content
+
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 _ROOT = "root"
@@ -15,7 +19,7 @@ _ROOT = "root"
 
 class PyProjectData(NamedTuple):
     path: Path
-    tool_name: str
+    tool_name: str | None
     project: TOML_RESULT
     section: TOML_RESULT
 
@@ -28,15 +32,16 @@ class PyProjectData(NamedTuple):
         return self.project.get("description")
 
 
-def read_pyproject(
+def read_changelog_config(
     tool_name: str,
-    path: Path = Path("pyproject.toml"),
+    path: Path,
     *,
+    use_tool_name: bool = True,
     require_section: bool = True,
 ) -> PyProjectData:
     defn = read_toml_content(path, None if require_section else {})
     try:
-        section = defn.get("tool", {})[tool_name]
+        section = defn.get("tool", {})[tool_name]["changelog"] if use_tool_name else defn.get("changelog", {})
     except LookupError as e:
         error = f"{path} does not contain a tool.{tool_name} section"
         if require_section:
@@ -64,7 +69,6 @@ def get_args_for_pyproject(
             pyproject.tool_name,
             relative,
         )
-    print(pyproject)
     if "dist_name" in section:
         if dist_name is None:
             dist_name = section.pop("dist_name")

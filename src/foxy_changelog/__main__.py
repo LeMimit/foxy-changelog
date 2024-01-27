@@ -12,6 +12,8 @@ import click
 
 from foxy_changelog import set_github
 from foxy_changelog import set_gitlab
+from foxy_changelog._config import FOXY_CHANGELOG_TOML
+from foxy_changelog._config import PYPROJECT
 from foxy_changelog._config import Configuration
 from foxy_changelog.presenter import MarkdownPresenter
 from foxy_changelog.presenter import default_template
@@ -46,7 +48,8 @@ def generate_changelog(
     "--config",
     type=click.Path(exists=True),
     default=None,
-    help="path to 'pyproject.toml' with foxy-changelog config, default: looked up in the current or parent directories",
+    help="path to 'pyproject.toml' with foxy-changelog config or 'foxy-changelog.toml' , "
+    "default: looked up in the current or parent directories",
 )
 @click.option(
     "--gitlab",
@@ -145,10 +148,17 @@ def main(
         logging.basicConfig(level=logging.DEBUG)
         logging.debug("Logging level has been set to DEBUG")
 
-    pyproject = config or _find_pyproject(str(path_repo))
+    # Priority to find configuration file user configuration -> foxy-changelog.toml -> pyproject.toml
+    config_file = (
+        config or _find_file(str(path_repo), name=FOXY_CHANGELOG_TOML) or _find_file(str(path_repo), name=PYPROJECT)
+    )
 
-    # try:
-    configuration = Configuration.from_file(str(pyproject), root=os.path.abspath(str(path_repo)))
+    configuration = (
+        Configuration.from_file(str(config_file), root=os.path.abspath(str(path_repo)))
+        if config_file is not None
+        else Configuration()
+    )
+    # Configurations from command line override configuration from file
     configuration = configuration.copy(
         {
             "gitlab": gitlab,
@@ -211,7 +221,7 @@ PATTERN = "<!-- foxy-changelog-above -->"
 
 
 def _write_changelog(output: Path, changelog: Any) -> None:
-    with open(output, "a+b") as output_file:
+    with open(output, "r+b") as output_file:
         lines = [line.decode("utf-8").rstrip() for line in output_file]
         kept_lines: list[str] = []
         is_pattern_found = False
@@ -234,13 +244,13 @@ def _write_changelog(output: Path, changelog: Any) -> None:
                 output_file.write(f"{line}\n".encode())
 
 
-def _find_pyproject(parent: str) -> str:
+def _find_file(parent: str, name: str) -> str | None:
     for directory in walk_potential_roots(os.path.abspath(parent)):
-        pyproject = os.path.join(directory, "pyproject.toml")
+        pyproject = os.path.join(directory, name)
         if os.path.isfile(pyproject):
             return pyproject
 
-    return os.path.abspath("pyproject.toml")  # use default name to trigger the default errors
+    return None
 
 
 def walk_potential_roots(root: str, *, search_parents: bool = True) -> Iterator[Path]:
