@@ -1,6 +1,24 @@
-# Foxy changelog
+# foxy-changelog
 
-A tool which generates a changelog and manage version for any git repository using conventional style.
+A tool which generates a changelog and manage version for any git repository using conventional commits specification
+
+## 1.2.0
+
+> `2024-01-27`
+
+### New features 🚀
+
+* **changelog**: add a new template to render only the last release ([#28](https://github.com/LeMimit/foxy-changelog/issues/28))
+* **changelog**: support adding generated changelog to an existing one ([#23](https://github.com/LeMimit/foxy-changelog/issues/23))
+* **changelog**: support semver and calendar tag pattern ([#22](https://github.com/LeMimit/foxy-changelog/issues/22))
+* **conf**: add support of configuration file ([#26](https://github.com/LeMimit/foxy-changelog/issues/26))
+
+### Fixes 🐞
+
+* **changelog**: apply a better configuration from autoescape ([#30](https://github.com/LeMimit/foxy-changelog/issues/30))
+* **changelog**: improve parsing to consider scope containing - or . ([#25](https://github.com/LeMimit/foxy-changelog/issues/25))
+
+Full set of changes: [`1.1.0...1.2.0`](https://github.com/LeMimit/foxy-changelog/compare/1.1.0...1.2.0)
 
 ## 1.1.0
 
@@ -17,6 +35,10 @@ A tool which generates a changelog and manage version for any git repository usi
 ### Continuous integration 🐹
 
 * **python**: remove unused and not working workflow ([#17](https://github.com/LeMimit/foxy-changelog/issues/17))
+
+### Others 🔨
+
+* **1.1.0**: generate changelog ([#18](https://github.com/LeMimit/foxy-changelog/issues/18))
 
 Full set of changes: [`1.0.0...1.1.0`](https://github.com/LeMimit/foxy-changelog/compare/1.0.0...1.1.0)
 
@@ -39,6 +61,10 @@ Full set of changes: [`1.0.0...1.1.0`](https://github.com/LeMimit/foxy-changelog
 ### Tools 🧰
 
 * **hatch**: use hatch as build system ([#4](https://github.com/LeMimit/foxy-changelog/issues/4))
+
+### Others 🔨
+
+* **1.0.0**: release version 1.0.0 ([#13](https://github.com/LeMimit/foxy-changelog/issues/13))
 
 Full set of changes: [`0.6.0...1.0.0`](https://github.com/LeMimit/foxy-changelog/compare/0.6.0...1.0.0)
 
@@ -77,7 +103,7 @@ Full set of changes: [`0.6.0...1.0.0`](https://github.com/LeMimit/foxy-changelog
 
 ### Fixes 🐞
 
-* FIxes bug <https://github.com/KeNaCo/auto-changelog/issues/112>
+* FIxes bug https://github.com/KeNaCo/auto-changelog/issues/112
 * updated jinja2 / click deps
 * default_issue_pattern
 * change option from --repo to --path-repo
@@ -210,7 +236,7 @@ Full set of changes: [`0.6.0...1.0.0`](https://github.com/LeMimit/foxy-changelog
 * Bumped the version number
 * Added a changelog and makefile
 * Removed the Jupyter notebook stuff
-* Removed the **pycache** crap that snuck in
+* Removed the __pycache__ crap that snuck in
 * **CI**: Add gitlab CI support
 * **ci**: Add build and release jobs [#21](https://github.com/LeMimit/foxy-changelog/issues/21)
 * **flake8**: remove unused import
@@ -219,6 +245,7 @@ Full set of changes: [`0.6.0...1.0.0`](https://github.com/LeMimit/foxy-changelog
 * **poetry**: update pyproject.toml to use poetry.groups
 * **poetry**: Update dependencies in lock file
 * **poetry**: Upgrade dependencies [#27](https://github.com/LeMimit/foxy-changelog/issues/27)
+* **pre-commit**: ignore safety report
 * **python**: drop python 3.5, add support for python 3.9
 * black
 * fix flakes complains
