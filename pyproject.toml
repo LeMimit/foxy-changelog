@@ -3,13 +3,13 @@ requires = [
     "hatchling",
     "hatch-requirements-txt",
     "hatch-vcs",
-    "foxy-changelog>=1.1.0.dev3",
+    "foxy-changelog",
 ]
 build-backend = "hatchling.build"
 
 [project]
 name = "foxy-changelog"
-description = "Simple tool to generate nice, formatted changelogs from vcs"
+description = "A tool which generates a changelog and manage version for any git repository using conventional commits specification"
 dynamic = ["version", "dependencies"]
 readme = "README.md"
 requires-python = ">=3.8"
@@ -55,6 +55,9 @@ source = "vcs"
 [tool.hatch.version.raw-options]
 version_scheme = "semver-conventional-commit-foxy"
 local_scheme = "no-local-version"
+
+[tool.foxy-changelog.changelog]
+tag_pattern = "semver"
 
 [tool.hatch.build.hooks.vcs]
 version-file = "src/foxy_changelog/_version.py"

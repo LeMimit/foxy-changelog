@@ -7,7 +7,7 @@
 >
 > **Sadly I do not have time to provide steps to contribute and not everything will be tested.**
 
-A tool which generates a changelog and manage version for any git repository using [`conventional style`](https://www.conventionalcommits.org/en/v1.0.0/) commit messages.
+A tool which generates a changelog and manage version for any git repository using [`conventional commits`](https://www.conventionalcommits.org/en/v1.0.0/) specification.
 
 - [Installation](#installation)
 - [Changelog generation](#changelog-generation)
@@ -16,6 +16,9 @@ A tool which generates a changelog and manage version for any git repository usi
   - [semver-conventional-commit-foxy](#semver-conventional-commit-foxy)
   - [calendar-conventional-commit-foxy](#calendar-conventional-commit-foxy)
   - [Hatch](#hatch)
+- [Configuration](#configuration)
+  - [Python project](#python-project)
+  - [Other projects](#other-projects)
 - [Command line interface](#command-line-interface)
 
 ## Installation
@@ -92,6 +95,39 @@ source = "vcs"
 version_scheme = "semver-conventional-commit-foxy"
 ```
 
+## Configuration
+
+`foxy-changelog` can be configured thanks to its command line or configuration files (`foxy-changelog.toml` or `pyproject.toml`).
+All the configurations of the command line to be also put in the configuration files for easier usage.
+
+Configurations files are automatically looked up in the project's folder but custom path can always to passed to the command line.
+Configurations from different sources are considered with an defined order.
+Commande line options overrides configurations from `foxy-changelog.toml` which overrides configurations from `pyproject.toml`.
+
+### Python project
+
+`pyproject.toml` is supported and is the recommanded way to configure python projects.
+
+The following configuration block can be added to the `pyproject.toml` file.
+
+```toml
+[tool.foxy-changelog.changelog]
+tag_pattern = "semver"
+```
+
+If no title and description are provided the one from `project` configuration are taken.
+
+### Other projects
+
+`foxy-changelog.toml` is recommanded way.
+
+The following configuration block can be added to the `foxy-changelog.toml` file.
+
+```toml
+[changelog]
+tag_pattern = "semver"
+```
+
 ## Command line interface
 
 You can list the command line options by running `foxy-changelog --help`:
@@ -100,6 +136,11 @@ You can list the command line options by running `foxy-changelog --help`:
 Usage: foxy-changelog [OPTIONS]
 
 Options:
+-c, --config PATH          path to 'pyproject.toml' with foxy-changelog
+                           config or 'foxy-changelog.toml' , default: looked
+                           up in the current or parent directories
+--gitlab                   Set Gitlab Pattern Generation.
+--github                   Set GitHub Pattern Generation.
 -p, --path-repo PATH       Path to the repository's root directory
                            [Default: .]
 
