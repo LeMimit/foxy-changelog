@@ -322,5 +322,5 @@ class RepositoryInterface(ABC):  # pylint: disable=too-few-public-methods
 
 class PresenterInterface(ABC):  # pylint: disable=too-few-public-methods
     @abstractmethod
-    def present(self, changelog: Changelog) -> Any:
+    def present(self, changelog: Changelog) -> str:
         raise NotImplementedError
