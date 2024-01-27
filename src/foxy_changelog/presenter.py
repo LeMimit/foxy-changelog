@@ -5,6 +5,7 @@ import re
 
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
+from jinja2 import select_autoescape
 
 from foxy_changelog.domain_model import Changelog
 from foxy_changelog.domain_model import PresenterInterface
@@ -25,7 +26,14 @@ class MarkdownPresenter(PresenterInterface):  # pylint: disable=too-few-public-m
         else:
             template_dir, template_name = os.path.split(template)
 
-        env = Environment(loader=FileSystemLoader(template_dir), autoescape=True)
+        env = Environment(
+            loader=FileSystemLoader(template_dir),
+            autoescape=select_autoescape(
+                disabled_extensions=("html", "htm", "xml"),
+                default_for_string=True,
+                default=False,
+            ),
+        )
 
         self.template = env.get_template(template_name)
 
