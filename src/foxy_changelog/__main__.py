@@ -221,7 +221,8 @@ PATTERN = "<!-- foxy-changelog-above -->"
 
 
 def _write_changelog(output: Path, changelog: Any) -> None:
-    with open(output, "r+b") as output_file:
+    with open(output, "a+b") as output_file:
+        output_file.seek(0)
         lines = [line.decode("utf-8").rstrip() for line in output_file]
         kept_lines: list[str] = []
         is_pattern_found = False
