@@ -9,7 +9,7 @@ from enum import Enum
 from typing import Any
 from typing import Callable
 
-from foxy_changelog import default_issue_pattern
+from foxy_project import default_issue_pattern
 
 
 # Default aim for Semver tags.
@@ -202,6 +202,7 @@ class Release(Note):
 
     @property
     def has_features(self) -> bool:
+        print("yes")
         return self._has(ChangeType.FEAT)
 
     @property
@@ -252,6 +253,7 @@ class Release(Note):
         return self._notes_with(lambda x: x.change_type == type_)
 
     def _has(self, type_: ChangeType) -> bool:
+        print(self._changes_indicators)
         return type_ in self._changes_indicators
 
 

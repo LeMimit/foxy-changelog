@@ -9,7 +9,7 @@ from datetime import date
 import pytest
 
 from click.testing import CliRunner
-from foxy_changelog.__main__ import main
+from foxy_project.__main__ import main
 
 
 # pylint: disable=redefined-outer-name

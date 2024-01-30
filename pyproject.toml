@@ -8,7 +8,7 @@ requires = [
 build-backend = "hatchling.build"
 
 [project]
-name = "foxy-changelog"
+name = "foxy-project"
 description = "A tool which generates a changelog and manage version for any git repository using conventional commits specification"
 dynamic = ["version", "dependencies"]
 readme = "README.md"
@@ -38,16 +38,16 @@ classifiers = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/LeMimit/foxy-changelog#readme"
-Issues = "https://github.com/LeMimit/foxy-changelog/issues"
-Source = "https://github.com/LeMimit/foxy-changelog"
+Documentation = "https://github.com/LeMimit/foxy-project#readme"
+Issues = "https://github.com/LeMimit/foxy-project/issues"
+Source = "https://github.com/LeMimit/foxy-project"
 
 [project.scripts]
-foxy-changelog = "foxy_changelog.__main__:main"
+foxy-project = "foxy_project.__main__:main"
 
 [project.entry-points."setuptools_scm.version_scheme"]
-"calendar-conventional-commit-foxy" = "foxy_changelog.setuptools_scm.version_scheme:calendar_conventional_commit_foxy"
-"semver-conventional-commit-foxy" = "foxy_changelog.setuptools_scm.version_scheme:semver_conventional_commit_foxy"
+"calendar-conventional-commit-foxy" = "foxy_project.setuptools_scm.version_scheme:calendar_conventional_commit_foxy"
+"semver-conventional-commit-foxy" = "foxy_project.setuptools_scm.version_scheme:semver_conventional_commit_foxy"
 
 [tool.hatch.version]
 source = "vcs"
@@ -60,10 +60,10 @@ local_scheme = "no-local-version"
 tag_pattern = "semver"
 
 [tool.hatch.build.hooks.vcs]
-version-file = "src/foxy_changelog/_version.py"
+version-file = "src/foxy_project/_version.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/foxy_changelog"]
+packages = ["src/foxy_project"]
 
 [tool.hatch.metadata.hooks.requirements_txt]
 files = ["deps/requirements.txt"]
@@ -87,14 +87,14 @@ module = "tests.*"
 disallow_untyped_defs = false
 
 [tool.coverage.run]
-source_pkgs = ["foxy_changelog", "tests"]
+source_pkgs = ["foxy_project", "tests"]
 branch = true
 parallel = true
-omit = ["src/foxy_changelog/__about__.py"]
+omit = ["src/foxy_project/__about__.py"]
 
 [tool.coverage.paths]
-test = ["src/foxy_changelog", "*/foxy_changelog/src/foxy_changelog"]
-tests = ["tests", "*/foxy_changelog/tests"]
+test = ["src/foxy_project", "*/foxy_project/src/foxy_project"]
+tests = ["tests", "*/foxy_project/tests"]
 
 [tool.coverage.report]
 exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]

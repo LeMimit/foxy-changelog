@@ -4,12 +4,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from foxy_changelog.setuptools_scm.config.pyproject_reading import get_args_for_pyproject
-from foxy_changelog.setuptools_scm.config.pyproject_reading import read_changelog_config
+from foxy_project.setuptools_scm.config.pyproject_reading import get_args_for_pyproject
+from foxy_project.setuptools_scm.config.pyproject_reading import read_changelog_config
 
 
 PYPROJECT = "pyproject.toml"
-FOXY_CHANGELOG_TOML = "foxy-changelog.toml"
+FOXY_PROJECT_TOML = "foxy-project.toml"
 
 
 @dataclass
@@ -52,7 +52,7 @@ class Configuration:
 
         use_tool_name = PYPROJECT in name
         pyproject_data = read_changelog_config(
-            tool_name="foxy-changelog", path=Path(name), use_tool_name=use_tool_name, require_section=_require_section
+            tool_name="foxy-project", path=Path(name), use_tool_name=use_tool_name, require_section=_require_section
         )
         args = get_args_for_pyproject(pyproject_data, dist_name, kwargs)
         # Take configuration from project as default configuration
