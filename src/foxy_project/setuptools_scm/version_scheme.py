@@ -3,9 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from foxy_changelog.domain_model import calendar_nammed_regex
-from foxy_changelog.domain_model import semver_nammed_regex
-from foxy_changelog.repository import GitRepository
+from foxy_project.domain_model import calendar_nammed_regex
+from foxy_project.domain_model import semver_nammed_regex
+from foxy_project.repository import GitRepository
 
 
 if TYPE_CHECKING:

@@ -10,19 +10,19 @@ from typing import Iterator
 
 import click
 
-from foxy_changelog import set_github
-from foxy_changelog import set_gitlab
-from foxy_changelog._config import FOXY_CHANGELOG_TOML
-from foxy_changelog._config import PYPROJECT
-from foxy_changelog._config import Configuration
-from foxy_changelog.presenter import MarkdownPresenter
-from foxy_changelog.presenter import default_template
-from foxy_changelog.repository import GitRepository
+from foxy_project import set_github
+from foxy_project import set_gitlab
+from foxy_project._config import FOXY_PROJECT_TOML
+from foxy_project._config import PYPROJECT
+from foxy_project._config import Configuration
+from foxy_project.presenter import MarkdownPresenter
+from foxy_project.presenter import default_template
+from foxy_project.repository import GitRepository
 
 
 if TYPE_CHECKING:
-    from foxy_changelog.domain_model import PresenterInterface
-    from foxy_changelog.domain_model import RepositoryInterface
+    from foxy_project.domain_model import PresenterInterface
+    from foxy_project.domain_model import RepositoryInterface
 
 
 def validate_template(ctx: Any, param: Any, value: str | None) -> str | None:  # noqa: ARG001
@@ -48,7 +48,7 @@ def generate_changelog(
     "--config",
     type=click.Path(exists=True),
     default=None,
-    help="path to 'pyproject.toml' with foxy-changelog config or 'foxy-changelog.toml' , "
+    help="path to 'pyproject.toml' with foxy-project config or 'foxy-project.toml' , "
     "default: looked up in the current or parent directories",
 )
 @click.option(
@@ -148,9 +148,9 @@ def main(
         logging.basicConfig(level=logging.DEBUG)
         logging.debug("Logging level has been set to DEBUG")
 
-    # Priority to find configuration file user configuration -> foxy-changelog.toml -> pyproject.toml
+    # Priority to find configuration file user configuration -> foxy-project.toml -> pyproject.toml
     config_file = (
-        config or _find_file(str(path_repo), name=FOXY_CHANGELOG_TOML) or _find_file(str(path_repo), name=PYPROJECT)
+        config or _find_file(str(path_repo), name=FOXY_PROJECT_TOML) or _find_file(str(path_repo), name=PYPROJECT)
     )
 
     configuration = (

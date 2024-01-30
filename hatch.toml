@@ -30,10 +30,10 @@ dev-mode = true
 
 # [envs.hatch-static-analysis.scripts]
 # lint-check = [
-#   "mypy --install-types --non-interactive {args:src/foxy_changelog tests}",
+#   "mypy --install-types --non-interactive {args:src/foxy_project tests}",
 #   "ruff check{env:HATCH_FMT_ARGS} {args:.}",
 # ]
 # lint-fix = [
-#   "mypy --install-types --non-interactive {args:src/foxy_changelog tests}",
+#   "mypy --install-types --non-interactive {args:src/foxy_project tests}",
 #   "ruff check{env:HATCH_FMT_ARGS} --fix {args:.}",
 # ]

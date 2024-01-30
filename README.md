@@ -1,4 +1,4 @@
-# 🦊 Foxy changelog
+# 🦊 Foxy project
 
 > [!IMPORTANT]
 > This repository is a fork of [auto-changelog](https://github.com/KeNaCo/auto-changelog).
@@ -26,7 +26,7 @@ A tool which generates a changelog and manage version for any git repository usi
 It is recommanded to install this tool with [`pipx`](https://github.com/pypa/pipx) to install it in a isolated environments:
 
 ```console
-pipx install foxy-changelog
+pipx install foxy-project
 ```
 
 ## Changelog generation
@@ -37,11 +37,11 @@ If you’d like to keep an existing changelog below your generated one, just add
 The generated changelog will be added above this token, and anything below will remain.
 
 > [!TIP]
-> This is quite useful when changing the tag pattern (e.g. from semver to calendar) used to version a project or to help keeping an old manually generated changelog when integrated conventional commit to a project to integrate foxy-changelog.
+> This is quite useful when changing the tag pattern (e.g. from semver to calendar) used to version a project or to help keeping an old manually generated changelog when integrated conventional commit to a project.
 
 ## Version management
 
-`foxy-changelog` is providing support to automatically generate the version of your python project according to its commit history.
+`foxy-project` is providing support to automatically generate the version of your python project according to its commit history.
 
 The management is based on [setuptools_scm](https://github.com/pypa/setuptools_scm) and [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/).
 
@@ -50,7 +50,7 @@ As defined in the conventional commit specification:
 >- The type `feat` MUST be used when a commit adds a new feature to your application or library.
 >- The type `fix` MUST be used when a commit represents a bug fix for your application.
 
-`foxy-changelog` is providing two entry points for `setuptools_scm.version_scheme` configuration.
+`foxy-project` is providing two entry points for `setuptools_scm.version_scheme` configuration.
 
 ### semver-conventional-commit-foxy
 
@@ -79,13 +79,13 @@ Rules:
 [Hatch](https://github.com/pypa/hatch) is supporting out of the box thanks to [hatch-vcs](https://github.com/ofek/hatch-vcs).
 Python projet using other project management tool can use `setuptools_scm` directly.
 
-Ensure `hatch-vcs` and `foxy-changelog` is defined within the `build-system.requires` field in your `pyproject.toml` file.
+Ensure `hatch-vcs` and `foxy-project` is defined within the `build-system.requires` field in your `pyproject.toml` file.
 
 All other options supported by `hatch-vcs` and `setuptools_scm` can be used. More information can be found in their documentation.
 
 ```toml
 [build-system]
-requires = ["hatchling", "hatch-vcs", "foxy-changelog"]
+requires = ["hatchling", "hatch-vcs", "foxy-project"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
@@ -97,12 +97,12 @@ version_scheme = "semver-conventional-commit-foxy"
 
 ## Configuration
 
-`foxy-changelog` can be configured thanks to its command line or configuration files (`foxy-changelog.toml` or `pyproject.toml`).
+`foxy-project` can be configured thanks to its command line or configuration files (`foxy-project.toml` or `pyproject.toml`).
 All the configurations of the command line to be also put in the configuration files for easier usage.
 
 Configurations files are automatically looked up in the project's folder but custom path can always to passed to the command line.
 Configurations from different sources are considered with an defined order.
-Commande line options overrides configurations from `foxy-changelog.toml` which overrides configurations from `pyproject.toml`.
+Commande line options overrides configurations from `foxy-project.toml` which overrides configurations from `pyproject.toml`.
 
 ### Python project
 
@@ -111,7 +111,7 @@ Commande line options overrides configurations from `foxy-changelog.toml` which 
 The following configuration block can be added to the `pyproject.toml` file.
 
 ```toml
-[tool.foxy-changelog.changelog]
+[tool.foxy-project.changelog]
 tag_pattern = "semver"
 ```
 
@@ -119,9 +119,9 @@ If no title and description are provided the one from `project` configuration ar
 
 ### Other projects
 
-`foxy-changelog.toml` is recommanded way.
+`foxy-project.toml` is recommanded way.
 
-The following configuration block can be added to the `foxy-changelog.toml` file.
+The following configuration block can be added to the `foxy-project.toml` file.
 
 ```toml
 [changelog]
@@ -130,14 +130,14 @@ tag_pattern = "semver"
 
 ## Command line interface
 
-You can list the command line options by running `foxy-changelog --help`:
+You can list the command line options by running `foxy-project --help`:
 
 ```console
-Usage: foxy-changelog [OPTIONS]
+Usage: foxy-project [OPTIONS]
 
 Options:
--c, --config PATH          path to 'pyproject.toml' with foxy-changelog
-                           config or 'foxy-changelog.toml' , default: looked
+-c, --config PATH          path to 'pyproject.toml' with foxy-project
+                           config or 'foxy-project.toml' , default: looked
                            up in the current or parent directories
 --gitlab                   Set Gitlab Pattern Generation.
 --github                   Set GitHub Pattern Generation.

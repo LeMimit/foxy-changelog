@@ -13,12 +13,12 @@ from typing import Optional
 from git import Repo
 from git import TagReference
 
-from foxy_changelog import default_diff_url
-from foxy_changelog import default_issue_url
-from foxy_changelog.domain_model import Changelog
-from foxy_changelog.domain_model import RepositoryInterface
-from foxy_changelog.domain_model import calendar_nammed_regex
-from foxy_changelog.domain_model import semver_nammed_regex
+from foxy_project import default_diff_url
+from foxy_project import default_issue_url
+from foxy_project.domain_model import Changelog
+from foxy_project.domain_model import RepositoryInterface
+from foxy_project.domain_model import calendar_nammed_regex
+from foxy_project.domain_model import semver_nammed_regex
 
 
 if TYPE_CHECKING:
