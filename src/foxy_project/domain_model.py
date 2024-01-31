@@ -202,7 +202,6 @@ class Release(Note):
 
     @property
     def has_features(self) -> bool:
-        print("yes")
         return self._has(ChangeType.FEAT)
 
     @property
@@ -253,8 +252,7 @@ class Release(Note):
         return self._notes_with(lambda x: x.change_type == type_)
 
     def _has(self, type_: ChangeType) -> bool:
-        print(self._changes_indicators)
-        return type_ in self._changes_indicators
+        return self._changes_indicators[type_]
 
 
 class Changelog:  # pylint: disable=too-many-instance-attributes
