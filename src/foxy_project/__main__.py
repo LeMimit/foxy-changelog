@@ -20,6 +20,7 @@ from foxy_project import set_gitlab
 from foxy_project._config import FOXY_PROJECT_TOML
 from foxy_project._config import PYPROJECT
 from foxy_project._config import Configuration
+from foxy_project._version import __version__
 from foxy_project.presenter import MarkdownPresenter
 from foxy_project.presenter import default_template
 from foxy_project.repository import GitRepository
@@ -127,6 +128,7 @@ def generate_changelog(
     default=False,
     help="set logging level to DEBUG",
 )
+@click.version_option(version=__version__, prog_name="Foxy project")
 def main(
     config: click.Path | None,
     path_repo: click.Path,
