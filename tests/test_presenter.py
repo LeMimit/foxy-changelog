@@ -9,9 +9,9 @@ from datetime import date
 
 import pytest
 
+from changelog.domain_model import Changelog
+from changelog.presenter import MarkdownPresenter
 from foxy_project import default_issue_pattern
-from foxy_project.domain_model import Changelog
-from foxy_project.presenter import MarkdownPresenter
 
 
 @pytest.fixture(params=["", "Title"])

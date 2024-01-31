@@ -9,8 +9,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from foxy_project.setuptools_scm.config.pyproject_reading import get_args_for_pyproject
-from foxy_project.setuptools_scm.config.pyproject_reading import read_changelog_config
+from foxy_project.version.config.pyproject_reading import get_args_for_pyproject
+from foxy_project.version.config.pyproject_reading import read_changelog_config
 
 
 PYPROJECT = "pyproject.toml"

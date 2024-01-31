@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 import pytest
 
-from foxy_project.repository import GitRepository
+from changelog.repository import GitRepository
 from git import Repo
 from git.objects import Commit
 

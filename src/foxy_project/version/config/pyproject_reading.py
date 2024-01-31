@@ -10,9 +10,9 @@ import logging
 from typing import TYPE_CHECKING
 from typing import NamedTuple
 
-from foxy_project.setuptools_scm.config.setuptools import read_dist_name_from_setup_cfg
-from foxy_project.setuptools_scm.config.toml import TOML_RESULT
-from foxy_project.setuptools_scm.config.toml import read_toml_content
+from foxy_project.version.config.setuptools import read_dist_name_from_setup_cfg
+from foxy_project.version.config.toml import TOML_RESULT
+from foxy_project.version.config.toml import read_toml_content
 
 
 if TYPE_CHECKING:
