@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2010-2024 Ronny Pfannschmidt <opensource@ronnypfannschmidt.de>
+# SPDX-FileCopyrightText: 2024-present Fabien Hermitte
+#
+# SPDX-License-Identifier: MIT
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
