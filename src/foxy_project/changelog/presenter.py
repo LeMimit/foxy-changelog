@@ -12,8 +12,8 @@ from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
 
-from foxy_project.domain_model import Changelog
-from foxy_project.domain_model import PresenterInterface
+from foxy_project.changelog.domain_model import Changelog
+from foxy_project.changelog.domain_model import PresenterInterface
 
 
 default_template_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "templates")

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2024 Michael Bryan <michaelfbryan@gmail.com> - Ken Mijime <kenaco666@gmail.com>
+# SPDX-FileCopyrightText: 2010-2024 Ronny Pfannschmidt <opensource@ronnypfannschmidt.de>
 # SPDX-FileCopyrightText: 2024-present Fabien Hermitte
 #
 # SPDX-License-Identifier: MIT
@@ -9,12 +9,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from foxy_project.setuptools_scm.config.pyproject_reading import get_args_for_pyproject
-from foxy_project.setuptools_scm.config.pyproject_reading import read_changelog_config
-
-
-PYPROJECT = "pyproject.toml"
-FOXY_PROJECT_TOML = "foxy-project.toml"
+from foxy_project.config.pyproject_reading import PYPROJECT
+from foxy_project.config.pyproject_reading import get_args_for_pyproject
+from foxy_project.config.pyproject_reading import read_changelog_config
 
 
 @dataclass
@@ -57,7 +54,7 @@ class Configuration:
 
         use_tool_name = PYPROJECT in name
         pyproject_data = read_changelog_config(
-            tool_name="foxy-project", path=Path(name), use_tool_name=use_tool_name, require_section=_require_section
+            setion_name="changelog", path=Path(name), use_tool_name=use_tool_name, require_section=_require_section
         )
         args = get_args_for_pyproject(pyproject_data, dist_name, kwargs)
         # Take configuration from project as default configuration

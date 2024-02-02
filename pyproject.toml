@@ -43,11 +43,11 @@ Issues = "https://github.com/LeMimit/foxy-project/issues"
 Source = "https://github.com/LeMimit/foxy-project"
 
 [project.scripts]
-foxy-project = "foxy_project.__main__:main"
+foxy-project = "foxy_project.__main__:cli"
 
 [project.entry-points."setuptools_scm.version_scheme"]
-"calendar-conventional-commit-foxy" = "foxy_project.setuptools_scm.version_scheme:calendar_conventional_commit_foxy"
-"semver-conventional-commit-foxy" = "foxy_project.setuptools_scm.version_scheme:semver_conventional_commit_foxy"
+"calendar-conventional-commit-foxy" = "foxy_project.version.version_scheme:calendar_conventional_commit_foxy"
+"semver-conventional-commit-foxy" = "foxy_project.version.version_scheme:semver_conventional_commit_foxy"
 
 [tool.hatch.version]
 source = "vcs"
@@ -56,7 +56,7 @@ source = "vcs"
 version_scheme = "semver-conventional-commit-foxy"
 local_scheme = "no-local-version"
 
-[tool.foxy-changelog.changelog]
+[tool.foxy-project.changelog]
 tag_pattern = "semver"
 
 [tool.hatch.build.hooks.vcs]

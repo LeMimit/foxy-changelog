@@ -14,7 +14,7 @@ from enum import Enum
 from typing import Any
 from typing import Callable
 
-from foxy_project import default_issue_pattern
+from foxy_project.changelog import default_issue_pattern
 
 
 # Default aim for Semver tags.
