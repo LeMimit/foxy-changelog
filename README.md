@@ -152,7 +152,9 @@ local_scheme = "no-local-version"
 ```toml
 # foxy-project.toml
 # [changelog]
+
 # pyproject.toml
+
 [tool.foxy-project.changelog]
 gitlab=false
 github=true
