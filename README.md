@@ -150,12 +150,12 @@ local_scheme = "no-local-version"
 ### Available configurations
 
 ```toml
-# foxy-project.toml
-# [changelog]
 
-# pyproject.toml
+[changelog]
+# foxy-project.toml
 
 [tool.foxy-project.changelog]
+# pyproject.toml
 gitlab=false
 github=true
 title="Changelog"
