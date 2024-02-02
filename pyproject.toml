@@ -58,6 +58,7 @@ local_scheme = "no-local-version"
 
 [tool.foxy-project.changelog]
 tag_pattern = "semver"
+starting_commit = "7462296e9888239541593849cd9eec9e2445314f"
 
 [tool.hatch.build.hooks.vcs]
 version-file = "src/foxy_project/_version.py"
