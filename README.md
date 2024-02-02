@@ -151,6 +151,8 @@ local_scheme = "no-local-version"
 
 ```toml
 
+# Changelog configuration
+
 [changelog]
 # foxy-project.toml
 
@@ -174,10 +176,14 @@ stdout=false
 starting_commit=""
 stopping_commit="HEAD"
 
+# Version configuration
+
+[version]
 # foxy-project.toml
-# [version]
-# pyproject.toml
+
+
 [tool.foxy-project.version]
+# pyproject.toml
 version_scheme="semver-conventional-commit-foxy"
 # See <https://setuptools-scm.readthedocs.io/en/latest/extending#setuptools_scmlocal_scheme>
 local_scheme="node-and-date"
