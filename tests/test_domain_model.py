@@ -10,7 +10,7 @@ from datetime import timedelta
 
 import pytest
 
-from changelog.domain_model import Changelog
+from foxy_project.changelog.domain_model import Changelog
 
 
 def test_empty_changelog():
