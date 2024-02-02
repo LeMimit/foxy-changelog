@@ -151,7 +151,7 @@ local_scheme = "no-local-version"
 
 ```toml
 # foxy-project.toml
-[changelog]
+# [changelog]
 # pyproject.toml
 [tool.foxy-project.changelog]
 gitlab=false
@@ -173,7 +173,7 @@ starting_commit=""
 stopping_commit="HEAD"
 
 # foxy-project.toml
-[version]
+# [version]
 # pyproject.toml
 [tool.foxy-project.version]
 version_scheme="semver-conventional-commit-foxy"
