@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2016-2024 Michael Bryan <michaelfbryan@gmail.com> - Ken Mijime <kenaco666@gmail.com>
+# SPDX-FileCopyrightText: 2010-2024 Ronny Pfannschmidt <opensource@ronnypfannschmidt.de>
 # SPDX-FileCopyrightText: 2024-present Fabien Hermitte
 #
 # SPDX-License-Identifier: MIT
@@ -17,12 +18,12 @@ import click
 
 from foxy_project.changelog import set_github
 from foxy_project.changelog import set_gitlab
-from foxy_project.changelog._changelog_config import FOXY_PROJECT_TOML
-from foxy_project.changelog._changelog_config import PYPROJECT
-from foxy_project.changelog._changelog_config import Configuration
+from foxy_project.changelog._config import Configuration
 from foxy_project.changelog.presenter import MarkdownPresenter
 from foxy_project.changelog.presenter import default_template
 from foxy_project.changelog.repository import GitRepository
+from foxy_project.config.pyproject_reading import FOXY_PROJECT_TOML
+from foxy_project.config.pyproject_reading import PYPROJECT
 
 
 if TYPE_CHECKING:

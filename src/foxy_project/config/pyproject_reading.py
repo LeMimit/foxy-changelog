@@ -10,9 +10,9 @@ import logging
 from typing import TYPE_CHECKING
 from typing import NamedTuple
 
-from foxy_project.version.config.setuptools import read_dist_name_from_setup_cfg
-from foxy_project.version.config.toml import TOML_RESULT
-from foxy_project.version.config.toml import read_toml_content
+from foxy_project.config.setuptools import read_dist_name_from_setup_cfg
+from foxy_project.config.toml import TOML_RESULT
+from foxy_project.config.toml import read_toml_content
 
 
 if TYPE_CHECKING:
@@ -20,6 +20,9 @@ if TYPE_CHECKING:
 
 
 _ROOT = "root"
+PYPROJECT = "pyproject.toml"
+FOXY_PROJECT_TOML = "foxy-project.toml"
+TOOL_NAME_TOML = "foxy-project"
 
 
 class PyProjectData(NamedTuple):
@@ -38,15 +41,16 @@ class PyProjectData(NamedTuple):
 
 
 def read_changelog_config(
-    tool_name: str,
     path: Path,
+    setion_name: str,
+    tool_name: str = TOOL_NAME_TOML,
     *,
     use_tool_name: bool = True,
     require_section: bool = True,
 ) -> PyProjectData:
     defn = read_toml_content(path, None if require_section else {})
     try:
-        section = defn.get("tool", {})[tool_name]["changelog"] if use_tool_name else defn.get("changelog", {})
+        section = defn.get("tool", {})[tool_name][setion_name] if use_tool_name else defn.get(setion_name, {})
     except LookupError as e:
         error = f"{path} does not contain a tool.{tool_name} section"
         if require_section:

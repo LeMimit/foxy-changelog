@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2024-present Fabien Hermitte
 #
 # SPDX-License-Identifier: MIT
+
 from __future__ import annotations
 
 from pathlib import Path
