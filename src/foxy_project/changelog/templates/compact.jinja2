@@ -19,7 +19,7 @@
 {{ macros.section('Dependency updates 📦', release.deps) -}}
 {%- endif -%}
 {{ macros.section_table('Dependency updates 📦', release.deps_table) -}}
-{{ macros.section('Others 🔨', release.builds+release.chore+release.reverts+release.style_changes+release.version) -}}
+{{ macros.section('Others 🔨', release.builds+release.chore+release.reverts+release.style_changes) -}}
 
 {% if release.diff_url %}
 Full set of changes: [`{{release.previous_tag}}...{{release.tag}}`]({{release.diff_url}})
