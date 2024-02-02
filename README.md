@@ -67,6 +67,7 @@ foxy-project version
 
 > [!TIP]
 > It is also possible to generate a file with the generated version. This behavior is deactivated by default.
+>
 > Use the `version_file` and `version_file_template` option to configure the generation.
 > Embedded templates for `.py` and `.txt` are available. A custom template needs to be provided for other type of file.
 
