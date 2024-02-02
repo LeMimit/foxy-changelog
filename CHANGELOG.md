@@ -82,6 +82,8 @@ Full set of changes: [`1.0.0...1.1.0`](https://github.com/LeMimit/foxy-project/c
 
 <!-- foxy-changelog-above -->
 
+<!-- Changelog from https://github.com/KeNaCo/auto-changelog repository -->
+
 ## 0.6.0 (2022-11-27)
 
 #### Fixes
