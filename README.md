@@ -19,6 +19,7 @@ A tool which generates a changelog and manage version for any git repository usi
   - [Python project](#python-project)
   - [Hatch](#hatch)
   - [Other projects](#other-projects)
+  - [Available configurations](#available-configurations)
 - [Command line interface](#command-line-interface)
   - [foxy-project changelog](#foxy-project-changelog)
   - [foxy-project version](#foxy-project-version)
@@ -64,7 +65,7 @@ Runnning the following command in the working environment will print the project
 foxy-project version
 ```
 
-`foxy-project` is providing two logics which control how the version is incremented.
+`foxy-project` is providing two version schemas which control how the version is incremented.
 
 ### semver-conventional-commit-foxy
 
@@ -144,6 +145,46 @@ tag_pattern = "semver"
 
 [version]
 local_scheme = "no-local-version"
+```
+
+### Available configurations
+
+```toml
+# foxy-project.toml
+[changelog]
+# pyproject.toml
+[tool.foxy-project.changelog]
+gitlab=false
+github=true
+title="Changelog"
+description="description"
+output="CHANGELOG.md"
+remote="origin"
+latest_version=""
+unreleased=false
+template="compact"
+diff_url=""
+issue_url=""
+issue_pattern=""
+tag_pattern="semver"
+tag_prefix=""
+stdout=false
+starting_commit=""
+stopping_commit="HEAD"
+
+# foxy-project.toml
+[version]
+# pyproject.toml
+[tool.foxy-project.version]
+version_scheme="semver-conventional-commit-foxy"
+# See <https://setuptools-scm.readthedocs.io/en/latest/extending#setuptools_scmlocal_scheme>
+local_scheme="node-and-date"
+version_file=""
+version_file_template=""
+relative_to=""
+tag_regex=""
+parentdir_prefix_version=""
+fallback_version=""
 ```
 
 ## Command line interface
