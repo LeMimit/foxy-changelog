@@ -1,0 +1,47 @@
+name: Creates a new release
+
+on:
+  pull_request:
+    types:
+      - closed
+    paths:
+      - "changelog.md"
+      - "CHANGELOG.md"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: startsWith(github.head_ref, 'version/') && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install tools
+        run: pip install foxy-project
+      - id: get-version
+        name: Parse new version
+        run: |
+          version = $(echo ${{ github.head_ref }} | cut -d / -f 2)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Identificate github bot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Create tag & push it
+        run: |
+          git tag -a ${{ get-version.outputs.version }} -m "Version ${{ get-version.outputs.version }}"
+          git push origin ${{ get-version.outputs.version }}
+      - name: Create Github release
+        run: |
+          foxy-project changelog --stdout --template lastrelease | gh release create ${{ get-version.outputs.version }} --title "Version ${{ get-version.outputs.version }}" -F -
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
