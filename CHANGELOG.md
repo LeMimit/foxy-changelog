@@ -6,6 +6,16 @@ A tool which generates a changelog and manage version for any git repository usi
 
 > `2024-02-04`
 
+### Continuous integration 🐹
+
+* **release**: automate publish on pypi ([#58](https://github.com/LeMimit/foxy-project/issues/58))
+
+Full set of changes: [`2.2.0...2.2.0`](https://github.com/LeMimit/foxy-project/compare/2.2.0...2.2.0)
+
+## 2.2.0
+
+> `2024-02-04`
+
 ### New features 🚀
 
 * **ci**: provide composite actions to automate release on ci ([#55](https://github.com/LeMimit/foxy-project/issues/55))
