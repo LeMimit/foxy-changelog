@@ -1,0 +1,42 @@
+name: "Create release"
+description: "Create a tag and a github release based on the generation done in previous workflow"
+inputs:
+  token:
+    description: "A Github PAT used to perform the github release"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Install python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Install python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Install foxy-project
+      run: pip install foxy-project
+      shell: bash
+    - id: get-version
+      name: Parse new version
+      run: |
+        version=$(echo ${{ github.head_ref }} | cut -d / -f 2)
+        echo "version=$version" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: Identificate github bot
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+      shell: bash
+    - name: Create tag & push it
+      run: |
+        git tag -a ${{ steps.get-version.outputs.version }} -m "Version ${{ steps.get-version.outputs.version }}"
+        git push origin ${{ steps.get-version.outputs.version }}
+      shell: bash
+    - name: Create Github release
+      run: |
+        foxy-project changelog --stdout --template lastrelease | gh release create ${{ steps.get-version.outputs.version }} --title "Version ${{ steps.get-version.outputs.version }}" -F -
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+      shell: bash
