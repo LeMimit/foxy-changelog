@@ -18,6 +18,8 @@ from setuptools_scm import get_version
 from foxy_project.config.pyproject_reading import FOXY_PROJECT_TOML
 from foxy_project.config.pyproject_reading import PYPROJECT
 from foxy_project.version._config import Configuration
+from foxy_project.version.version_scheme import calendar_conventional_commit_foxy_next
+from foxy_project.version.version_scheme import semver_conventional_commit_next_foxy
 
 
 @click.command(help="View project's version based on the commit history.")
@@ -94,6 +96,12 @@ from foxy_project.version._config import Configuration
     "(e.g., when using a tarball with no metadata).",
 )
 @click.option(
+    "--next",
+    is_flag=True,
+    default=False,
+    help="Use the next possible version instead of the current one.",
+)
+@click.option(
     "--debug",
     is_flag=True,
     default=False,
@@ -110,6 +118,7 @@ def version(
     tag_regex: str | None,
     parentdir_prefix_version: str | None,
     fallback_version: str | None,
+    next: str | None,
     debug: bool | None,
 ) -> None:
     if debug:
@@ -139,6 +148,15 @@ def version(
             "fallback_version": fallback_version,
         }
     )
+
+    if next and configuration.version_scheme == "semver-conventional-commit-foxy":
+        configuration.version_scheme = semver_conventional_commit_next_foxy
+
+    if next and configuration.version_scheme == "calendar-conventional-commit-foxy":
+        configuration.version_scheme = calendar_conventional_commit_foxy_next
+
+    if next:
+        configuration.local_scheme = "no-local-version"
 
     version = get_version(
         root=configuration.root,
