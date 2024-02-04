@@ -13,6 +13,7 @@ A tool which generates a changelog and manage version for any git repository usi
 - [Changelog generation](#changelog-generation)
   - [Add to an existing changelog](#add-to-an-existing-changelog)
 - [Version management](#version-management)
+  - [pep440-conventional-commit-foxy](#pep440-conventional-commit-foxy)
   - [semver-conventional-commit-foxy](#semver-conventional-commit-foxy)
   - [calendar-conventional-commit-foxy](#calendar-conventional-commit-foxy)
 - [Configuration](#configuration)
@@ -71,29 +72,42 @@ foxy-project version
 > Use the `version_file` and `version_file_template` option to configure the generation.
 > Embedded templates for `.py` and `.txt` are available. A custom template needs to be provided for other type of file.
 
-`foxy-project` is providing two version schemas which control how the version is incremented.
+`foxy-project` is providing three version schemas which control how the version is incremented.
+
+### pep440-conventional-commit-foxy
+
+Based on [PEP440](https://peps.python.org/pep-0440/). Selected by default.
+
+Logic:
+
+A commit with `feat` type activates an increment of the minor, otherwise all other types will activate an increment of the patch.
+Then appends `.devN` where `N` is the distance between the current commit and the previous tag.
+
+> [!NOTE]
+> Breaking changes and pre-release is not supported yet.
 
 ### semver-conventional-commit-foxy
 
-Based on [semver](https://semver.org/lang/fr/). Selected by default.
+Based on [semver](https://semver.org/lang/fr/).
 
-Rules:
+Logic:
 
-- A commit with type `feat` activates an increment of the minor.
-- All other types will activate an increment of the patch.
+A commit with `feat` type activates an increment of the minor, otherwise all other types will activate an increment of the patch.
+Then appends `-devN` where `N` is the distance between the current commit and the previous tag.
 
 > [!NOTE]
-> Breaking changes is not supported yet.
+> Breaking changes and pre-release with other name than `dev` is not supported yet.
 
 ### calendar-conventional-commit-foxy
 
-To manage version based on the calendar. The supported convention is YYYY.MM.Patch with Patch a number not 0-padded starting to 1. (example: 2024.01.1).
+To manage version based on the calendar. Based on ([calver](https://calver.org/)).
+The supported convention is YYYY.MM.Patch with Patch a number not 0-padded starting to 1. (example: 2024.01.1).
 
-Rules:
+Logic:
 
-- A commit with type `feat` activates an increment of the month.
-- All other types will activate an increment of the patch version.
-- The year is automatically incremented at the end a year.
+A commit with `feat` type activates an increment of the montg, otherwise all other types will activate an increment of the patch.
+The year is automatically incremented at the end a year.
+Then appends `.devN` where `N` is the distance between the current commit and the previous tag.
 
 ## Configuration
 
