@@ -83,7 +83,7 @@ Logic:
 A commit with `feat` type activates an increment of the minor, otherwise all other types will activate an increment of the patch.
 Then appends `.devN` where `N` is the distance between the current commit and the previous tag.
 
-> [!NOTE]
+> [!WARNING]
 > Breaking changes and pre-release is not supported yet.
 
 ### semver-conventional-commit-foxy
@@ -95,7 +95,7 @@ Logic:
 A commit with `feat` type activates an increment of the minor, otherwise all other types will activate an increment of the patch.
 Then appends `-devN` where `N` is the distance between the current commit and the previous tag.
 
-> [!NOTE]
+> [!WARNING]
 > Breaking changes and pre-release with other name than `dev` is not supported yet.
 
 ### calendar-conventional-commit-foxy
