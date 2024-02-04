@@ -2,6 +2,21 @@
 
 A tool which generates a changelog and manage version for any git repository using conventional commits specification
 
+## 2.3.0
+
+> `2024-02-04`
+
+### New features 🚀
+
+* **ci**: add created tag as output of create-release action ([#61](https://github.com/LeMimit/foxy-project/issues/61))
+
+### Continuous integration 🐹
+
+* **release**: add missing steps ([#62](https://github.com/LeMimit/foxy-project/issues/62))
+* **release**: automate publish on pypi ([#58](https://github.com/LeMimit/foxy-project/issues/58))
+
+Full set of changes: [`2.2.0...2.3.0`](https://github.com/LeMimit/foxy-project/compare/2.2.0...2.3.0)
+
 ## 2.2.0
 
 > `2024-02-04`
