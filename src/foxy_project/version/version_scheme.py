@@ -25,6 +25,8 @@ if TYPE_CHECKING:
 
 PEP440_FMT = "{guessed}.dev{distance}"
 PEP440_NEXT_FMT = "{guessed}"
+SEMVER_FMT = "{guessed}-dev{distance}"
+SEMVER_NEXT_FMT = "{guessed}"
 
 VERSION_LEN = 3
 VERSION_MINOR = 2
@@ -51,11 +53,26 @@ def calendar_conventional_commit_foxy_next(version: ScmVersion) -> str:
 
 def semver_conventional_commit_foxy(version: ScmVersion) -> str:
     return _conventional_commit_foxy(
-        version, tag_pattern=semver_nammed_regex, guess_next=guess_next_simple_semver, fmt=PEP440_FMT
+        version, tag_pattern=semver_nammed_regex, guess_next=guess_next_simple_semver, fmt=SEMVER_FMT
     )
 
 
 def semver_conventional_commit_next_foxy(version: ScmVersion) -> str:
+    return _conventional_commit_foxy(
+        version, tag_pattern=semver_nammed_regex, guess_next=guess_next_simple_semver, fmt=SEMVER_NEXT_FMT
+    )
+
+
+# PEP440 versionning - https://peps.python.org/pep-0440/
+
+
+def pep440_conventional_commit_foxy(version: ScmVersion) -> str:
+    return _conventional_commit_foxy(
+        version, tag_pattern=semver_nammed_regex, guess_next=guess_next_simple_semver, fmt=PEP440_FMT
+    )
+
+
+def pep440_conventional_commit_next_foxy(version: ScmVersion) -> str:
     return _conventional_commit_foxy(
         version, tag_pattern=semver_nammed_regex, guess_next=guess_next_simple_semver, fmt=PEP440_NEXT_FMT
     )

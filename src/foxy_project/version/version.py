@@ -19,6 +19,7 @@ from foxy_project.config.pyproject_reading import FOXY_PROJECT_TOML
 from foxy_project.config.pyproject_reading import PYPROJECT
 from foxy_project.version._config import Configuration
 from foxy_project.version.version_scheme import calendar_conventional_commit_foxy_next
+from foxy_project.version.version_scheme import pep440_conventional_commit_next_foxy
 from foxy_project.version.version_scheme import semver_conventional_commit_next_foxy
 
 
@@ -168,6 +169,9 @@ def version(
 
     if next and configuration.version_scheme == "calendar-conventional-commit-foxy":
         configuration.version_scheme = calendar_conventional_commit_foxy_next
+
+    if next and configuration.version_scheme == "pep440-conventional-commit-foxy":
+        configuration.version_scheme = pep440_conventional_commit_next_foxy
 
     if next:
         configuration.local_scheme = "no-local-version"

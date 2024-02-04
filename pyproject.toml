@@ -48,6 +48,7 @@ foxy-project = "foxy_project.__main__:cli"
 [project.entry-points."setuptools_scm.version_scheme"]
 "calendar-conventional-commit-foxy" = "foxy_project.version.version_scheme:calendar_conventional_commit_foxy"
 "semver-conventional-commit-foxy" = "foxy_project.version.version_scheme:semver_conventional_commit_foxy"
+"pep440-conventional-commit-foxy" = "foxy_project.version.version_scheme:pep440_conventional_commit_foxy"
 
 [tool.hatch.version]
 source = "vcs"

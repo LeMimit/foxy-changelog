@@ -31,7 +31,7 @@ VERSION_SCHEME: TypeAlias = Union[str, Callable[["setuptools_scm.version.ScmVers
 SCMVERSION: TypeAlias = "setuptools_scm.version.ScmVersion"
 PathT: TypeAlias = Union["os.PathLike[str]", str]
 
-DEFAULT_VERSION_SCHEME = "semver-conventional-commit-foxy"
+DEFAULT_VERSION_SCHEME = "pep440-conventional-commit-foxy"
 DEFAULT_LOCAL_SCHEME = "node-and-date"
 
 # default tag regex that tries to match PEP440 style versions with prefix consisting of dashed words
