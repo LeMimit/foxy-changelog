@@ -2,6 +2,18 @@
 
 A tool which generates a changelog and manage version for any git repository using conventional commits specification
 
+## 2.1.0
+
+> `2024-02-04`
+
+### New features 🚀
+
+* **version**: clearly support semver and pep440 specifications ([#53](https://github.com/LeMimit/foxy-project/issues/53))
+* **version**: add options to deactivate feature ([#52](https://github.com/LeMimit/foxy-project/issues/52))
+* **version**: make possible to generate the next version ([#51](https://github.com/LeMimit/foxy-project/issues/51))
+
+Full set of changes: [`2.0.0...2.1.0`](https://github.com/LeMimit/foxy-project/compare/2.0.0...2.1.0)
+
 ## 2.0.0
 
 > `2024-02-02`
