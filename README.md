@@ -7,6 +7,11 @@
 >
 > **Sadly I do not have time to provide steps to contribute and not everything will be tested.**
 
+| | |
+| --- | --- |
+| Package    |  [![PyPI - Version](https://img.shields.io/pypi/v/foxy-project.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/foxy-project/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/foxy-project.svg?color=blue&label=Downloads&logo=pypi&logoColor=gold)](https://pypi.org/project/foxy-project/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/foxy-project.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/foxy-project/)  |
+| Meta   | [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch) [![linting - Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/python/mypy) [![License - MIT](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://spdx.org/licenses/)  |
+
 A tool which generates a changelog and manage version for any git repository using [`conventional commits`](https://www.conventionalcommits.org/en/v1.0.0/) specification.
 
 - [Installation](#installation)
@@ -21,6 +26,7 @@ A tool which generates a changelog and manage version for any git repository usi
   - [Hatch](#hatch)
   - [Other projects](#other-projects)
   - [Available configurations](#available-configurations)
+- [Github actions](#github-actions)
 - [Command line interface](#command-line-interface)
   - [foxy-project changelog](#foxy-project-changelog)
   - [foxy-project version](#foxy-project-version)
@@ -214,6 +220,20 @@ tag_regex=""
 parentdir_prefix_version=""
 fallback_version=""
 ```
+
+## Github actions
+
+This repository is providing two composite actions to help automate release on Github actions:
+
+- `generate-changelog` which generate the changelog and commit it on a branch.
+- `create-release` which create a tag and the github release of a new version
+
+These two actions are designed to work together. You can look at the workflows ([create-release](https://github.com/LeMimit/foxy-project/blob/7056bde43b0f0b7ce1d315e51225a0394352a8cf/.github/workflows/create-release.yml) and [prepare-release](https://github.com/LeMimit/foxy-project/blob/7056bde43b0f0b7ce1d315e51225a0394352a8cf/.github/workflows/prepare-release.yml)) of this project to see how to use them.
+
+The advantage of this process is that it does not interfere with the protection of the default branch and no personal PAT needs to be created.
+
+> [!NOTE]
+> You need to allow workflows to create pull request in the settings of the repository.
 
 ## Command line interface
 
