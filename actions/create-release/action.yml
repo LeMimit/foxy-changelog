@@ -1,5 +1,9 @@
 name: "Create release"
 description: "Create a tag and a github release based on the generation done in previous workflow"
+inputs:
+  token:
+    description: "A Github PAT used to perform the github release"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -34,5 +38,5 @@ runs:
       run: |
         foxy-project changelog --stdout --template lastrelease | gh release create ${{ steps.get-version.outputs.version }} --title "Version ${{ steps.get-version.outputs.version }}" -F -
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ inputs.token }}
       shell: bash
