@@ -10,6 +10,14 @@ A tool which generates a changelog and manage version for any git repository usi
 
 * **ci**: add created tag as output of create-release action ([#61](https://github.com/LeMimit/foxy-project/issues/61))
 
+### Fixes 🐞
+
+* **project**: replace old project name on build dependencies ([#64](https://github.com/LeMimit/foxy-project/issues/64))
+
+### Refactorings 🏭
+
+* **project**: improve documentation provided by readme ([#65](https://github.com/LeMimit/foxy-project/issues/65))
+
 ### Continuous integration 🐹
 
 * **release**: add missing steps ([#62](https://github.com/LeMimit/foxy-project/issues/62))
