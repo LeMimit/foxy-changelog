@@ -1,10 +1,5 @@
 [build-system]
-requires = [
-    "hatchling",
-    "hatch-requirements-txt",
-    "hatch-vcs",
-    "foxy-changelog",
-]
+requires = ["hatchling", "hatch-requirements-txt", "hatch-vcs", "foxy-project"]
 build-backend = "hatchling.build"
 
 [project]
