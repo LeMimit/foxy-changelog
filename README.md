@@ -308,6 +308,8 @@ Options:
                                   other method for detecting the version
                                   worked(e.g., when using a tarball with no
                                   metadata).
+  --next                          Use the next possible version instead of the
+                                  current one.
   --debug                         set logging level to DEBUG
   --help                          Show this message and exit.
 ```
