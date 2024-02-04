@@ -1,0 +1,41 @@
+name: "Generate changelog"
+description: "Generate the changelog of the next release"
+inputs:
+  version:
+    description: Override version used to create the new release
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Install python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Install foxy-project
+      run: pip install foxy-project
+      shell: bash
+    - name: Determine version of new release
+      if: "${{ inputs.version == '' }}"
+      run: echo "VERSION=$(foxy-project version --next --no-version-file)" >> $GITHUB_ENV
+      shell: bash
+    - name: Take version from workflow's inputs
+      if: "${{ inputs.version != '' }}"
+      run: echo "VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Identificate github bot
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+      shell: bash
+    - name: Create new branch
+      run: git switch -c "version/${{ env.VERSION }}"
+      shell: bash
+    - name: Generate the new changelog
+      run: foxy-project changelog -v ${{ env.VERSION }}
+      shell: bash
+    - name: Commit & push
+      run: |
+        git add .
+        git commit -m "version(${{ env.VERSION }}): generate changelog"
+        git push origin "version/${{ env.VERSION }}"
+      shell: bash
