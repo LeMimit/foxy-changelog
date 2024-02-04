@@ -23,22 +23,46 @@ if TYPE_CHECKING:
     _P = ParamSpec("_P")
 
 
+PEP440_FMT = "{guessed}.dev{distance}"
+PEP440_NEXT_FMT = "{guessed}"
+
 VERSION_LEN = 3
 VERSION_MINOR = 2
 VERSION_PATCH = 3
 CALENDAR_DECEMBER_MONTH = 12
 
+# Calendar versionning - https://calver.org/
+
 
 def calendar_conventional_commit_foxy(version: ScmVersion) -> str:
-    return _conventional_commit_foxy(version, tag_pattern=calendar_nammed_regex, guess_next=guess_next_simple_calendar)
+    return _conventional_commit_foxy(
+        version, tag_pattern=calendar_nammed_regex, guess_next=guess_next_simple_calendar, fmt=PEP440_FMT
+    )
+
+
+def calendar_conventional_commit_foxy_next(version: ScmVersion) -> str:
+    return _conventional_commit_foxy(
+        version, tag_pattern=calendar_nammed_regex, guess_next=guess_next_simple_calendar, fmt=PEP440_NEXT_FMT
+    )
+
+
+# Semver versionning - https://semver.org/lang/fr/
 
 
 def semver_conventional_commit_foxy(version: ScmVersion) -> str:
-    return _conventional_commit_foxy(version, tag_pattern=semver_nammed_regex, guess_next=guess_next_simple_semver)
+    return _conventional_commit_foxy(
+        version, tag_pattern=semver_nammed_regex, guess_next=guess_next_simple_semver, fmt=PEP440_FMT
+    )
+
+
+def semver_conventional_commit_next_foxy(version: ScmVersion) -> str:
+    return _conventional_commit_foxy(
+        version, tag_pattern=semver_nammed_regex, guess_next=guess_next_simple_semver, fmt=PEP440_NEXT_FMT
+    )
 
 
 def _conventional_commit_foxy(
-    version: ScmVersion, tag_pattern: str, guess_next: Callable[Concatenate[ScmVersion, _P], str]
+    version: ScmVersion, tag_pattern: str, guess_next: Callable[Concatenate[ScmVersion, _P], str], fmt: str
 ) -> str:
     if version.exact:
         return version.format_with("{tag}")
@@ -53,9 +77,9 @@ def _conventional_commit_foxy(
     changelog = repository.generate_changelog()
 
     if changelog.releases[0].has_features:
-        return version.format_next_version(guess_next, retain=VERSION_MINOR)
+        return version.format_next_version(guess_next, fmt=fmt, retain=VERSION_MINOR)
 
-    return version.format_next_version(guess_next, retain=VERSION_PATCH)
+    return version.format_next_version(guess_next, fmt=fmt, retain=VERSION_PATCH)
 
 
 def guess_next_simple_calendar(version: ScmVersion, *, retain: int, increment: bool = True) -> str:
