@@ -1,20 +1,23 @@
 name: Create release
 run-name: Create release linked to ${{ github.head_ref }}
 
+# on:
+#   pull_request:
+#     types:
+#       - closed
+#     paths:
+#       - "changelog.md"
+#       - "CHANGELOG.md"
+
 on:
   pull_request:
-    types:
-      - closed
-    paths:
-      - "changelog.md"
-      - "CHANGELOG.md"
 
 permissions:
   contents: write
 
 jobs:
   release:
-    if: startsWith(github.head_ref, 'version/') && github.event.pull_request.merged == true
+    # if: startsWith(github.head_ref, 'version/') && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
