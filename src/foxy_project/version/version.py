@@ -102,6 +102,18 @@ from foxy_project.version.version_scheme import semver_conventional_commit_next_
     help="Use the next possible version instead of the current one.",
 )
 @click.option(
+    "--no-print",
+    is_flag=True,
+    default=False,
+    help="Deactivate the print of the version.",
+)
+@click.option(
+    "--no-version-file",
+    is_flag=True,
+    default=False,
+    help="Deactivate the generation of the version file.",
+)
+@click.option(
     "--debug",
     is_flag=True,
     default=False,
@@ -118,7 +130,9 @@ def version(
     tag_regex: str | None,
     parentdir_prefix_version: str | None,
     fallback_version: str | None,
-    next: str | None,
+    next: bool | None,  # noqa: A002
+    no_print: bool | None,
+    no_version_file: bool | None,
     debug: bool | None,
 ) -> None:
     if debug:
@@ -158,6 +172,9 @@ def version(
     if next:
         configuration.local_scheme = "no-local-version"
 
+    if no_version_file:
+        configuration.version_file = None
+
     version = get_version(
         root=configuration.root,
         version_scheme=configuration.version_scheme,
@@ -169,7 +186,8 @@ def version(
         fallback_version=configuration.fallback_version,
         normalize=configuration.normalize,
     )
-    click.echo(version)
+    if not no_print:
+        click.echo(version)
 
 
 def _find_file(parent: str, name: str) -> str | None:

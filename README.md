@@ -310,6 +310,9 @@ Options:
                                   metadata).
   --next                          Use the next possible version instead of the
                                   current one.
+  --no-print                      Deactivate the print of the version.
+  --no-version-file               Deactivate the generation of the version
+                                  file.
   --debug                         set logging level to DEBUG
   --help                          Show this message and exit.
 ```
