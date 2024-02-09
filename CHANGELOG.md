@@ -2,6 +2,20 @@
 
 A tool which generates a changelog and manage version for any git repository using conventional commits specification
 
+## 2.4.0
+
+> `2024-02-09`
+
+### New features 🚀
+
+* **ci**: add setup-foxy-project action ([#68](https://github.com/LeMimit/foxy-project/issues/68))
+
+### Continuous integration 🐹
+
+* **workflow**: use hash instead of tag to specify version of actions ([#69](https://github.com/LeMimit/foxy-project/issues/69))
+
+Full set of changes: [`2.3.0...2.4.0`](https://github.com/LeMimit/foxy-project/compare/2.3.0...2.4.0)
+
 ## 2.3.0
 
 > `2024-02-04`
