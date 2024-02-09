@@ -225,7 +225,7 @@ fallback_version=""
 
 This repository is providing two composite actions to help automate release on Github actions:
 
-- `setup-foxy-project` which set up a specific version of foxy-project and add the command-line tools to the PATH.
+- `setup-foxy-project` which set up the lastest version of foxy-project and add the command-line tools to the PATH.
 - `generate-changelog` which generate the changelog and commit it on a branch.
 - `create-release` which create a tag and the github release of a new version.
 

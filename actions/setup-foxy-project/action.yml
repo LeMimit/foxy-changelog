@@ -1,9 +1,5 @@
 name: "Setup foxy-project"
-description: "Set up a specific version of foxy-project and add the command-line tools to the PATH."
-inputs:
-  version:
-    description: "Specify a specific version of foxy-project to install"
-    required: false
+description: "Set up the latest version of foxy-project and add the command-line tools to the PATH."
 runs:
   using: "composite"
   steps:
