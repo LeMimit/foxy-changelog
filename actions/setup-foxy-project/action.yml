@@ -1,0 +1,21 @@
+name: "Setup foxy-project"
+description: "Set up a specific version of foxy-project and add the command-line tools to the PATH."
+inputs:
+  version:
+    description: "Specify a specific version of foxy-project to install"
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Install python
+      uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+      with:
+        python-version: "3.12"
+    - name: Install pipx
+      run: |
+        python3 -m pip install --user pipx
+        python3 -m pipx ensurepath
+      shell: bash
+    - name: Install foxy-project
+      run: pipx install foxy-project
+      shell: bash
