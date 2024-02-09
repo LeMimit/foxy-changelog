@@ -15,7 +15,8 @@ runs:
       run: |
         python3 -m pip install --user pipx
         python3 -m pipx ensurepath
+        pipx reinstall-all
       shell: bash
     - name: Install foxy-project
-      run: pipx install foxy-project
+      run: pipx install foxy-project --python python3.12
       shell: bash

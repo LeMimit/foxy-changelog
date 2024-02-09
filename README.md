@@ -225,10 +225,11 @@ fallback_version=""
 
 This repository is providing two composite actions to help automate release on Github actions:
 
+- `setup-foxy-project` which set up a specific version of foxy-project and add the command-line tools to the PATH.
 - `generate-changelog` which generate the changelog and commit it on a branch.
 - `create-release` which create a tag and the github release of a new version.
 
-These two actions are designed to work together. You can look at the workflows ([prepare-release](https://github.com/LeMimit/foxy-project/blob/7056bde43b0f0b7ce1d315e51225a0394352a8cf/.github/workflows/prepare-release.yml) and [create-release](https://github.com/LeMimit/foxy-project/blob/7056bde43b0f0b7ce1d315e51225a0394352a8cf/.github/workflows/create-release.yml)) of this project to see how to use them.
+You can look at the workflows ([prepare-release](https://github.com/LeMimit/foxy-project/blob/7056bde43b0f0b7ce1d315e51225a0394352a8cf/.github/workflows/prepare-release.yml) and [create-release](https://github.com/LeMimit/foxy-project/blob/7056bde43b0f0b7ce1d315e51225a0394352a8cf/.github/workflows/create-release.yml)) of this project to see how to use them.
 
 The advantage of this process is that it does not interfere with the protection of the default branch and no personal PAT needs to be created.
 
