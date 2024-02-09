@@ -12,7 +12,7 @@
   - head-branch: ["^refactor/"]
 🧪 test:
   - head-branch: ["^test/"]
-🔨 tools:
+🧰 tools:
   - head-branch: ["^tools/"]
 🦊 version:
   - head-branch: ["^version/"]
