@@ -1,0 +1,22 @@
+🐞 bug:
+  - head-branch: ["^fix/"]
+🐹 CI:
+  - head-branch: ["^ci/"]
+📃 documentation:
+  - head-branch: ["^docs/"]
+🚀 feature:
+  - head-branch: ["^feat/"]
+🎢 performance:
+  - head-branch: ["^perf/"]
+🏭 refactor:
+  - head-branch: ["^refactor/"]
+🧪 test:
+  - head-branch: ["^test/"]
+🔨 tools:
+  - head-branch: ["^tools/"]
+🦊 version:
+  - head-branch: ["^version/"]
+📦 dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "deps/*"
