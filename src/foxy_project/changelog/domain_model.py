@@ -21,7 +21,8 @@ from foxy_project.changelog import default_issue_pattern
 # Original Semver source: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 semver_nammed_regex = r"(?P<version>((?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*))(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)"  # noqa: E501
 calendar_nammed_regex = r"(?P<version>((?P<major>\d{4})\.(?P<minor>\d{2})\.(?P<patch>[1-9]\d*))(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)"  # noqa: E501
-semver_regex = r"((?:0|[1-9]\d*\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?))"  # noqa: E501
+# Regex which allow to not have a patch
+relaxed_semver_regex = r"((?:(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:\.(?:0|[1-9]\d*))?(?:-(?:(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?:[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?))"  # noqa: E501
 
 
 class ChangeType(Enum):
@@ -132,7 +133,7 @@ class Release(Note):
     def deps_table(self) -> list[DependencyUpdate]:
         deps_notes = self._notes_with_type(ChangeType.DEPS)
         map_deps: dict[str, DependencyUpdate] = {}
-        regex = re.compile(f"from {semver_regex} to {semver_regex}")
+        regex = re.compile(f"from {relaxed_semver_regex} to {relaxed_semver_regex}")
         for deps_note in deps_notes:
             match = regex.match(deps_note.description)
             if match:
