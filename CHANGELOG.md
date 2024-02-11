@@ -19,9 +19,9 @@ A tool which generates a changelog and manage version for any git repository usi
 
 | Dependency  | Previous version  | New version   |
 |:------------|:------------------|:--------------|
-|fab|2.5|2.6|
+|fab|2.5|2.6.1|
 
-Full set of changes: [`2.4.0...6119030`](https://github.com/LeMimit/foxy-project/compare/2.4.0...6119030)
+Full set of changes: [`2.4.0...0042cf0`](https://github.com/LeMimit/foxy-project/compare/2.4.0...0042cf0)
 
 ## 2.4.0
 
