@@ -141,7 +141,7 @@ class Release(Note):
                     map_deps[deps_note.scope].previous_version = match.group(1)
                 else:
                     map_deps[deps_note.scope] = DependencyUpdate(
-                        name=deps_note.scope, previous_version=match.group(1), next_version=match.group(3)
+                        name=deps_note.scope, previous_version=match.group(1), next_version=match.group(2)
                     )
 
         return list(map_deps.values())

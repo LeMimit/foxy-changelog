@@ -2,6 +2,27 @@
 
 A tool which generates a changelog and manage version for any git repository using conventional commits specification
 
+## Unreleased
+
+> `2024-02-11`
+
+### Fixes 🐞
+
+* **changelog**: consider deps with no patch version
+
+### Continuous integration 🐹
+
+* **labeler**: update label for tools ([#72](https://github.com/LeMimit/foxy-project/issues/72))
+* **labeler**: add labeler workflow to automatically label pr ([#71](https://github.com/LeMimit/foxy-project/issues/71))
+
+### Dependency updates 📦
+
+| Dependency  | Previous version  | New version   |
+|:------------|:------------------|:--------------|
+|fab|2.5|2.6|
+
+Full set of changes: [`2.4.0...6119030`](https://github.com/LeMimit/foxy-project/compare/2.4.0...6119030)
+
 ## 2.4.0
 
 > `2024-02-09`
