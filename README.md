@@ -26,7 +26,7 @@ A tool which generates a changelog and manage version for any git repository usi
   - [Hatch](#hatch)
   - [Other projects](#other-projects)
   - [Available configurations](#available-configurations)
-- [Github actions sd](#github-actions-sd)
+- [Github actions](#github-actions)
 - [Command line interface](#command-line-interface)
   - [foxy-project changelog](#foxy-project-changelog)
   - [foxy-project version](#foxy-project-version)
@@ -221,7 +221,7 @@ parentdir_prefix_version=""
 fallback_version=""
 ```
 
-## Github actions sd
+## Github actions
 
 This repository is providing two composite actions to help automate release on Github actions:
 
